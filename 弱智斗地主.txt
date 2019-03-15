@@ -1,0 +1,147 @@
+#include<iostream>
+#include<string>
+#define single_card 1
+#define pair_card 2
+#define three_card 3
+#define bomb 4
+#define three_and_one 5
+#define three_and_two 6
+#define straight 7
+#define consecutive 8
+#define plane 9
+#define four_and_two 10
+#define king_bomb 11
+using namespace std;
+struct Card  //表示扑克牌
+{
+	string card;  //牌
+	int n;  //牌的编号，用于排序
+};
+Card opposite[20]; //上家
+Card myself[20]; //自己
+int n, m; //n表示手中牌，m表示上家下的牌
+void pre_dispose(Card a[], int num);  //给每张牌一个编号
+void sort(Card a[], int num);  //将手中的牌进行排序
+void my_cin();  //输入牌
+int judge(Card a[], int num);  //判断对方下的是何种牌型
+int same_card(Card a[], int num);  //相同的牌的最大数量
+void my_act(Card a[], int num);  //依据对方和自身情况判断如何出牌
+
+int main()
+{
+	/*my_cin();
+	pre_dispose(myself, n);
+	pre_dispose(opposite, m);*/
+	while (1)
+	{
+		int nn;
+		cout << "输入牌数：";
+		cin >> nn;
+		cout << "输入牌：";
+		for (int i = 0; i < nn; ++i)
+			cin >> opposite[i].card;
+		pre_dispose(opposite, nn);
+		sort(opposite, nn);
+		int ans = judge(opposite, nn);
+		cout << ans << endl;
+	}
+	return 0;
+}
+
+void my_cin()
+{
+	cin >> n >> m;
+	for (int i = 0; i < n; ++i)
+		cin >> myself[i].card;
+	for (int i = 0; i < m; ++i)
+		cin >> opposite[i].card;
+}
+void pre_dispose(Card a[], int num)
+{
+	for (int i = 0; i < num; ++i)
+	{
+		a[i].n = (int)a[i].card[0];
+		if (a[i].card=="10")
+			a[i].n = (int)'9' + 1;
+		if (a[i].card == "2")
+			a[i].n = (int)'Q' + 3;
+		if (a[i].card == "A")
+			a[i].n = (int)'Q' + 2;
+		if (a[i].card == "K")
+			a[i].n = (int)'Q' + 1;
+		if (a[i].card == "joker")
+			a[i].n = (int)"Q" + 4;
+		if (a[i].card == "JOKER")
+			a[i].n = (int)"Q" + 5;
+	}
+}
+void sort(Card a[], int num) 
+{
+	for (int i = num; i>1; --i)
+	{
+		int max = 0;
+		Card tmp;
+		for (int j = 1; j< i; ++j)
+			if (a[j].n<a[max].n)
+				max = j;
+		if (max != i - 1)
+		{
+			tmp = a[i - 1];
+			a[i - 1] = a[max];
+			a[max] = tmp;
+		}
+	}
+}
+int same_card(Card a[], int num)
+{
+	int num_1 = 1, num_2 = 1;  //num_1用于计数，num_2用于存放最大数量
+	for (int i = 0; i < num - 1; ++i)
+	{
+		if (a[i].card == a[i + 1].card)
+			num_1++;
+		else {
+			if (num_1 > num_2)
+				num_2 = num_1;   
+			num_1 = 1;  //重新计数
+		}
+	}
+	if (num_1 > num_2)
+		num_2 = num_1;
+	return num_2;
+}
+int judge(Card a[], int num)
+{
+	if (num >= 5)   //判断是否为顺子
+	{
+		int different_card = 0;
+		for (int i = 0; i < 4; ++i)
+			if (a[i].card != a[i + 1].card)
+				different_card++;
+		if (different_card == num)
+			return straight; 
+	}
+	switch (num)
+	{
+	case 1:return single_card;  //单张牌
+	case 2: {         //两张牌
+		if (a[0].card == "JOKER") //王炸
+			return king_bomb;
+		else return pair_card;  //对子
+	}
+	case 3:return three_card;  //三张牌不带
+	case 4: {
+		if (a[0].card == a[3].card)
+			return bomb; //四张牌相同，炸弹
+		else return three_and_one; //有一张不同，三带一
+	}
+	case 5: return three_and_two; //三带二
+	default: {
+		int same_num = same_card(a, num);
+		if (same_num == 2)  //连对
+			return consecutive;
+		else if (same_num == 3)  //飞机
+			return plane;
+		else return four_and_two;  //四带二
+	}
+	}
+}
