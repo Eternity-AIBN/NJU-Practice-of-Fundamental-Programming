@@ -32,35 +32,26 @@ int sum;  //手中不同的牌的数量
 void pre_dispose(Card a[], int num);  //给每张牌一个编号
 void sort(Card a[], int num);  //将手中的牌进行排序
 int deal_repetition();  //对自己手中重复的牌进行计数,返回处理后牌面类型-1的值
-void my_cin();  //输入牌
+void init();  //输入牌
 int judge(Card a[], int num);  //判断对方下的是何种牌型
-
-int same_card(Card a[], int num);  //相同的牌的最大数量
+int same_card();  //相同的牌的最大数量
 
 void my_act(int opponent_card);  //依据对方和自身情况判断如何出牌
-int find_card(Card oppo_card, int num); 
-//在自己的牌中找到大于对方oppo_card牌的num张牌,返回相同的牌中最后一张的位置，找不到则返回-1
-void find_pair(int &pair_1, int &pair_2); //在牌中找到两对对子，将其位置放在pair_1和pair_2中，若找不到则位置为-1
-int same_card(int num1, int num2);  
-//num1表示顺子或连对或飞机的牌数，num2代表牌型，返回顺子或连对或飞机中最小的牌的位置，若无则返回-1
+int find_card(int num1, int num2);  
+//num1表示牌型数，num2代表牌型，返回顺子或连对或飞机中最小的牌的位置，若无则返回-1
 Card plane_last();  //返回对方飞机中最小的牌
 int num_of_plane(); //判断对方下了多少飞机
+bool print(int num1, int num2, bool flag, Card cmp);
+//输出几(num1)带几(num2)的牌,flag判断带的牌是否成对,输出的牌(除了被带的牌)要大于cmp,找不到符合条件的牌则返回false
 
 int main()
 {
-	m = 9;
-	while (1)
-	{
-		for (int i = 0; i < m; ++i)
-			cin >> opponent[i].card;
-		pre_dispose(opponent, m);
-		sort(opponent, m);
-		cout << num_of_plane() << endl;
-	}
+	sum = deal_repetition();
+
 	return 0;
 }
 
-void my_cin()
+void init()
 {
 	cout << "分别输入自己和对方各有多少牌：";
 	cin >> n >> m;
@@ -70,6 +61,11 @@ void my_cin()
 	cout << "对方的牌: ";
 	for (int i = 0; i < m; ++i)
 		cin >> opponent[i].card;
+	pre_dispose(myself, n);
+	pre_dispose(opponent, m);
+	sort(myself, n);
+	sort(myself, m);
+	sum = deal_repetition();
 }
 void pre_dispose(Card a[], int num)
 {
@@ -112,26 +108,9 @@ void sort(Card a[], int num)
 		}
 	}
 }
-int same_card(Card a[], int num)
-{
-	int num_1 = 1, num_2 = 1;  //num_1用于计数，num_2用于存放最大数量
-	for (int i = 0; i < num - 1; ++i)
-	{
-		if (a[i].card == a[i + 1].card)
-			num_1++;
-		else {
-			if (num_1 > num_2)
-				num_2 = num_1;   
-			num_1 = 1;  //重新计数
-		}
-	}
-	if (num_1 > num_2)
-		num_2 = num_1;
-	return num_2;
-}
 int judge(Card a[], int num)
 {
-	if (num >= 5 && same_card(a, num) == 1)   //判断是否为顺子
+	if (num >= 5 && same_card() == 1)   //判断是否为顺子
 		return straight;
 	switch (num)
 	{
@@ -149,7 +128,7 @@ int judge(Card a[], int num)
 	}
 	case 5: return three_and_two; //三带二
 	default: {
-		int same_num = same_card(a, num);
+		int same_num = same_card();
 		if (same_num == 2)  //连对
 			return consecutive;
 		else if (same_num == 3)  //飞机
@@ -159,37 +138,22 @@ int judge(Card a[], int num)
 	}
 	return 0;
 }
-int find_card(Card oppo_card, int num)
+int same_card()
 {
-	if (same_card(myself, n) < num)  //手中没有num_of_card张相同的牌
-		return -1;
-	int i = n - 1;
-	for (; i > num - 2; --i)
-		if (myself[i].n > oppo_card.n)
-		{
-			int j = 0;
-			for (; j < num - 1; ++j)
-				if (myself[i - j].n != myself[i - j - 1].n)break;
-			if (j == num - 1)  //手中牌可以压过对方
-				return i;
+	int num_1 = 1, num_2 = 1;  //num_1用于计数，num_2用于存放最大数量
+	for (int i = 0; i < m - 1; ++i)
+	{
+		if (opponent[i].card == opponent[i + 1].card)
+			num_1++;
+		else {
+			if (num_1 > num_2)
+				num_2 = num_1;
+			num_1 = 1;  //重新计数
 		}
-	return -1;
-}
-void find_pair(int &pair_1, int &pair_2)
-{
-	int i = 0;
-	for (; i < n - 2; ++i)  //寻找第一对对子
-		if (myself[i].card == myself[i + 1].card&&myself[i].card != myself[i + 2].card)break;
-	if (i < n - 3)  //第一对对子后面还有至少两张牌
-		pair_1 = i;
-	else return;
-	for (; i < n - 2; ++i)  //寻找第二对对子
-		if (myself[i].card == myself[i + 1].card&&myself[i].card != myself[i + 2].card)break;
-	if (i < n - 2)
-		pair_2 = i;
-	else if (myself[i].card == myself[i + 1].card) //最后两张牌是一对
-			pair_2 = i;
-	else return;
+	}
+	if (num_1 > num_2)
+		num_2 = num_1;
+	return num_2;
 }
 int deal_repetition()
 {
@@ -210,6 +174,7 @@ int deal_repetition()
 	}
 	return j - 1;
 }
+
 Card plane_last()
 {
 	int i = m - 1;
@@ -228,28 +193,63 @@ int num_of_plane()
 		}
 	return count;
 }
-int same_card(int num1,int num2)
+int find_card(int num1,int num2)
 {
-	int num = num1 / num2;  //对方下的顺子或对子或飞机的数量
-	sum = deal_repetition();
 	int i = sum;
 	Card tmp; //存放对方牌型中最小的牌
 	if (num2 == 3) //对方下的是飞机
 		tmp = plane_last();
 	else tmp = opponent[m - 1]; //对方下的是顺子或者对子
-	for (; deal_myself[i].per_card.card <= tmp.card&&i >= num - 1; --i);
-	if (i < num - 1)return -1;  //手中牌无法形成能压住对方的对子
+	for (; deal_myself[i].per_card.card <= tmp.card&&i >= num1 - 1; --i);
+	if (i < num1 - 1)return -1;  //手中牌无法形成能压住对方的对子
 	int count = 1;  //计算顺子or对子or飞机的数量
 	for (; i > 0; --i)
 	{
 		if (deal_myself[i].per_card.n + 1 == deal_myself[i - 1].per_card.n&&deal_myself[i].num>=num2&&deal_myself[i-1].num>=num2)
 		{
 			count++;
-			if (count == num)return i;
+			if (count == num1)return i;
 		}
-		else count = 1;  //重新找顺子
+		else count = 1;  //重新找顺子or对子or飞机
 	}
 	return -1;
+}
+bool print(int num1, int num2, bool flag, Card cmp)
+{
+	int i = sum;
+	int count = 0; //对带的牌进行计数
+	for (; i >= 0; --i)
+		if (deal_myself[i].per_card.card > cmp.card&&deal_myself[i].num >= num1)break;
+	if (i < 0)return false;  //没得下
+	if (flag) //带的牌是一对
+	{
+		for (int j = 0; j < i && count < num2; ++j)   //要带的牌
+			if (deal_myself[j].num>1)
+			{
+				cout << deal_myself[j].per_card.card << ' ' << deal_myself[j].per_card.card << ' ';
+				count++;
+			}
+		for (int j = 0; j < num1; ++j)
+			cout << deal_myself[j].per_card.card << ' ';
+		for (int j = i + 1; j <= sum && count < num2; ++j)   //要带的牌
+			if (deal_myself[j].num>1)
+			{
+				cout << deal_myself[j].per_card.card << ' ' << deal_myself[j].per_card.card << ' ';
+				count++;
+			}
+	}
+	else {   //带的牌是单支的
+		for (int j = 0; j < i && count < num2; ++j)   //要带的牌
+			for (int k = 0; k < deal_myself[j].num&&count < num2; ++k, ++count)
+				cout << deal_myself[j].per_card.card << ' ';
+		for (int j = 0; j < num1; ++j)
+			cout << deal_myself[j].per_card.card << ' ';
+		for (int j = i + 1; j <= sum && count < num2; ++j)   //要带的牌
+			for (int k = 0; k < deal_myself[j].num&&count < num2; ++k, ++count)
+				cout << deal_myself[j].per_card.card << ' ';
+	}
+	cout << endl;
+	return true;
 }
 void my_act(int opponent_card)
 {
@@ -267,78 +267,52 @@ void my_act(int opponent_card)
 		break;
 	}
 	case pair_card: {
-		int flag = find_card(opponent[0], 4);
-		if (flag == -1)break;
-		for (int k = 0; k < 2; ++k)
-			cout << myself[flag - k].card << ' ';
+		int i = sum;
+		for (; i >= 0; --i)
+			if (deal_myself[i].num > 1 && deal_myself[i].per_card.card > opponent[0].card)
+				cout << deal_myself[i].per_card.card << ' ' << deal_myself[i].per_card.card;
+		if (i < 0)break;
 		cout << endl;
 		return;
 	}
 	case three_card: {
-		int flag = find_card(opponent[0], 3);
-		if (flag == -1)break;
-		for (int k = 0; k < 3; ++k)
-			cout << myself[flag - k].card << ' ';
-		cout << endl;
-		return;
+		bool flag = print(3, 0, 0, opponent[0]);
+		if (flag)
+			return;
+		break;
 	}
 	case bomb: {
-		int flag = find_card(opponent[0], 4);
-		if (flag == -1)break;
-		for (int k = 0; k < 4; ++k)
-			cout << myself[flag - k].card << ' ';
-		cout << endl;
-		return;
+		bool flag = print(4, 0, 0, opponent[0]);
+		if (flag)
+			return;
+		break;
 	}
 	case three_and_one: {
-		int flag = find_card(opponent[1], 3);  //对方第二张牌一定与其他两张牌相同
-		if (flag == -1)break;
-		if (flag == n - 1) //自己出的三带是位于最后的几张牌
-		{
-			cout << myself[0].card << ' ';  //带上第一张牌即可
-			for (int k = 0; k < 3; ++k)
-				cout << myself[flag - k].card << ' ';
-			cout << endl;
-		}
-		else {
-			for (int k = 0; k < 3; ++k)
-				cout << myself[flag - k].card << ' ';
-			cout << myself[n - 1].card << endl;  //带上最后一张牌
-		}
-		return;
+		bool flag = print(3, 1, 0, opponent[1]);
+		if (flag)
+			return;
+		break;
 	}
 	case three_and_two: {
-		int flag = find_card(opponent[2], 3);//对方第三张牌一定与其他两张牌相同
-		if (flag == -1)break;
-		if (flag == n - 1) //自己出的三带是位于最后的几张牌
-		{
-			cout << myself[0].card << ' ' << myself[1].card << ' ';  //带上第一、二张牌即可
-			for (int k = 0; k < 3; ++k)
-				cout << myself[flag - k].card << ' ';
-			cout << endl;
-		}
-		else {
-			cout << myself[0].card << ' '; //带上第一张牌
-			for (int k = 0; k < 3; ++k)
-				cout << myself[flag - k].card << ' ';
-			cout << myself[n - 1].card << endl; //带上最后一张牌
-		}
-		return;
+		bool flag = print(3, 1, 0, opponent[2]);
+		if (flag)
+			return;
+		break;
 	}
 	case straight: {
 		if (opponent[0].card == "2")break; //对方已经连到2
-		int last = same_card(m, 1);
+		int last = find_card(m, 1);
 		if (last == -1)break;  //未能找到顺子压住对方
-		for (int i = 0; i < m; ++i)
+		for (int i = m - 1; i >= 0; ++i)
 			cout << deal_myself[last - i].per_card.card << ' ';
 		cout << endl;
 		return;
 	}
 	case consecutive: {
 		if (opponent[0].card == "2")break; //对方已经连到2
-		int last = same_card(m, 2);
+		int last = find_card(m / 2, 2);
 		if (last == -1)break;  //未能找到顺子压住对方
-		for (int i = 0; i < m / 2; ++i)
+		for (int i = m / 2 - 1; i >= 0; ++i)
 			cout << deal_myself[last - i].per_card.card << ' ' << deal_myself[last - i].per_card.card << ' ';
 		cout << endl;
 		return;
@@ -346,12 +320,12 @@ void my_act(int opponent_card)
 	case plane: {
 		int plane_num = num_of_plane(); //飞机数量
 		int additional_card = m - plane_num * 3;  //带的牌数量
-		int last = same_card(plane_num * 3, 3);
+		int last = find_card(plane_num , 3);
 		if (last == -1)break;  //未能找到顺子压住对方
 		if (additional_card / plane_num == 0)  //飞机不带翼
 		{
 			for (int i = 0; i < plane_num; ++i)
-				for (int j = 0; j < 3; ++j)
+				for (int j = 2; j >= 0; ++j)
 					cout << deal_myself[last - i].per_card.card << ' ';
 		}
 		else if (additional_card / plane_num == 1)  //飞机带小翼
@@ -394,7 +368,7 @@ void my_act(int opponent_card)
 				for (int j = 0; j < 3; ++j)
 					cout << deal_myself[last - i].per_card.card << ' ';
 			if (count != plane_num)  //带的牌还不够，继续输出
-				for (i = last - plane_num ; i >= 0; --i)   //输出带的牌
+				for (i = last - plane_num; i >= 0; --i)   //输出带的牌
 				{
 					if (deal_myself[i].num == 2)
 					{
@@ -410,51 +384,21 @@ void my_act(int opponent_card)
 	case four_and_two: {
 		if (m == 6) //对方四带两张牌
 		{
-			int flag = find_card(opponent[2], 4);
-			if (flag == -1)break;
-			if (flag == n - 1) //自己出的四带是位于最后的几张牌
-			{
-				cout << myself[0].card << ' ' << myself[1].card << myself[2].card << endl;  //带上第一、二、三张牌即可
-				for (int k = 0; k < 4; ++k)
-					cout << myself[flag - k].card << ' ';
-				cout << endl;
-			}
-			else {
-				cout << myself[0].card << ' '; //带上第一张牌
-				for (int k = 0; k < 4; ++k)
-					cout << myself[flag - k].card << ' ';
-				cout << myself[n - 1].card << endl; //带上最后一张牌
-			}
-			return;
+			bool flag = print(4, 2, 0, opponent[3]);
+			if (flag)
+				return;
+			break;
 		}
 		else  //对方四带两对牌
 		{
 			Card tmp; //存放对方四张相同牌的牌面
-			if (opponent[3].card == opponent[4].card)  //四张相同的牌在中间
-				tmp = opponent[3];
-			else if (opponent[0].card == opponent[1].card)  //前四张牌相同
-				tmp = opponent[0];
-			else tmp = opponent[4];  //后四张牌相同
-			int flag = find_card(tmp, 4);
-			if (flag == -1)break;
-			int pair_first = -1, pair_second = -1;
-			find_pair(pair_first, pair_second);
-			if (pair_second == -1)break; //自己手上没有两对对子可以带
-			if (pair_first < flag)
-			{
-				cout << myself[pair_first].card << ' ' << myself[pair_first + 1].card << ' ';
-				for (int k = 0; k < 4; ++k)
-					cout << myself[flag - k].card << ' ';
-				cout << myself[pair_second].card << ' ' << myself[pair_second + 1].card << ' ';
-			}
-			else {
-				for (int k = 0; k < 4; ++k)
-					cout << myself[flag - k].card << ' ';
-				cout << myself[pair_first].card << ' ' << myself[pair_first + 1].card << ' ';
-				cout << myself[pair_second].card << ' ' << myself[pair_second + 1].card << ' ';
-			}
-			cout << endl;
-			return;
+			if (opponent[3].card != opponent[4].card&&opponent[0].card != opponent[2].card)
+				tmp = opponent[4];
+			else tmp = opponent[3];
+			bool flag = print(4, 2, 1, tmp);
+			if (flag)
+				return;
+			break;
 		}
 	}
 	default:
@@ -467,17 +411,14 @@ void my_act(int opponent_card)
 		return;
 	}
 	else {   //考虑能否使用炸弹
-		Card tmp;
-		tmp.n = -1;
-		int flag = find_card(tmp, 4);
-		if (flag == -1)
-		{
+		int i = 0;
+		for (; i < sum; ++i)
+			if (deal_myself[i].num == 4)  //手中有炸弹
+				for (int k = 0; k < 4; ++k)
+					cout << deal_myself[i].per_card.card << ' ';
+		if (i == sum)
 			cout << "YAO BU QI" << endl;
-			return;
-		}
-		for (int k = 0; k < 4; ++k)
-			cout << myself[flag - k].card << ' ';
-		cout << endl;
+		else cout << endl;
 		return;
 	}
 	cout << "YAO BU QI" << endl;
