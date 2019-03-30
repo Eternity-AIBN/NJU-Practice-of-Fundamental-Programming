@@ -14,5 +14,6 @@ public:
 	void changePassword();  //修改密码
 	void printChange();  //显示修改密码界面
 	void cinPassword(string &s);  //输入密码，显示*
+	bool checkFormat(const string &s);  //检查密码格式是否正确
 
 };

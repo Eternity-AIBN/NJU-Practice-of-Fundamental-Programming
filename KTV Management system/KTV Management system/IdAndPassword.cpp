@@ -5,8 +5,8 @@ using namespace std;
 
 IdAndPassword::IdAndPassword()
 {
-	accountNum = "Lihan123456";
-	passwordNum = "20010222";
+	accountNum = "Lihan123";
+	passwordNum = "Li123";
 	times = 3;
 }
 void IdAndPassword::cinPassword(string &s)
@@ -50,6 +50,53 @@ bool IdAndPassword::judge()
 	Sleep(750);
 	return false;
 }
+bool IdAndPassword::checkFormat(const string &s)
+{
+	if (s.size() > 12)
+	{
+		Draw::gotoxy(30, 15);
+		cout << "密码不得超过12个字符！";
+		Sleep(750);
+		Draw::gotoxy(30, 15);
+		cout << "                      ";
+		return false;
+	}
+	unsigned int i = 0, j = 0, k = 0;
+	for (; i < s.size(); ++i)    //判断密码中是否有数字
+		if (isdigit(s[i]))break;
+	if (i == s.size())
+	{
+		Draw::gotoxy(28, 15);
+		cout << "密码必须由大小写字母,数字组成";
+		Sleep(750);
+		Draw::gotoxy(28, 15);
+		cout << "                             ";
+		return false;
+	}
+	for (i = 0; i < s.size(); ++i) //判断密码中是否有小写字母
+		if (islower(s[i]))break;
+	if (i == s.size())
+	{
+		Draw::gotoxy(28, 15);
+		cout << "密码必须由大小写字母,数字组成";
+		Sleep(750);
+		Draw::gotoxy(28, 15);
+		cout << "                             ";
+		return false;
+	}
+	for (i = 0; i < s.size(); ++i) //判断密码中是否有大写字母
+		if (isupper(s[i]))break;
+	if (i == s.size())
+	{
+		Draw::gotoxy(28, 15);
+		cout << "密码必须由大小写字母,数字组成";
+		Sleep(750);
+		Draw::gotoxy(28, 15);
+		cout << "                             ";
+		return false;
+	}
+	return true;
+}
 void IdAndPassword::changePassword()
 {
 	string newPassword, tmp;
@@ -73,15 +120,22 @@ void IdAndPassword::changePassword()
 				{
 					Draw::gotoxy(40, 12);
 					cinPassword(newPassword);
-					if (newPassword != passwordNum)  //新旧密码相同
+					if (newPassword == passwordNum)  //新旧密码相同
+					{
+						Draw::gotoxy(30, 15);
+						cout << "与原密码相同，请重新设置";
+						Sleep(750);
+						Draw::gotoxy(30, 15);
+						cout << "                        ";
+						Draw::gotoxy(40, 12);
+						cout << "               ";
+					}
+					else if (checkFormat(newPassword))
 						break;
-					Draw::gotoxy(30, 15);
-					cout << "与原密码相同，请重新设置";
-					Sleep(750);
-					Draw::gotoxy(30, 15);
-					cout << "                        ";
-					Draw::gotoxy(40, 12);
-					cout << "               ";
+					else {
+						Draw::gotoxy(40, 12);
+						cout << "               ";
+					}
 				}
 				Draw::gotoxy(42, 13);
 				cinPassword(tmp);

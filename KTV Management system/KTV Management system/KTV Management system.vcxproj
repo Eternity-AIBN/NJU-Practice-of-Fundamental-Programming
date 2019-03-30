@@ -155,10 +155,12 @@
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddSong.cpp" />
     <ClCompile Include="AdminInterface.cpp" />
+    <ClCompile Include="BulkImport.cpp" />
+    <ClCompile Include="DeleteSong.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="IdAndPassword.cpp" />
-    <ClCompile Include="InfoHandle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainInterface.cpp" />
     <ClCompile Include="SongQuery.cpp" />

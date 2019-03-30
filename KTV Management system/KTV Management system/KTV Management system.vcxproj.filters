@@ -44,9 +44,6 @@
     <ClCompile Include="AdminInterface.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="InfoHandle.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -60,6 +57,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SongQuery.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AddSong.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BulkImport.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteSong.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
