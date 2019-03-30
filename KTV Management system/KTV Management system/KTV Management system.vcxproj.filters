@@ -68,5 +68,23 @@
     <ClCompile Include="DeleteSong.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ModifyInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SongRanking.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChooseSinger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChooseSongName.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ChoosePhoneticize.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="HaveSelected.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

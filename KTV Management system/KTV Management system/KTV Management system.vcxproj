@@ -158,12 +158,18 @@
     <ClCompile Include="AddSong.cpp" />
     <ClCompile Include="AdminInterface.cpp" />
     <ClCompile Include="BulkImport.cpp" />
+    <ClCompile Include="ChoosePhoneticize.cpp" />
+    <ClCompile Include="ChooseSinger.cpp" />
+    <ClCompile Include="ChooseSongName.cpp" />
     <ClCompile Include="DeleteSong.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="HaveSelected.cpp" />
     <ClCompile Include="IdAndPassword.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainInterface.cpp" />
+    <ClCompile Include="ModifyInfo.cpp" />
     <ClCompile Include="SongQuery.cpp" />
+    <ClCompile Include="SongRanking.cpp" />
     <ClCompile Include="UserInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

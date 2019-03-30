@@ -10,7 +10,7 @@ class IdAndPassword
 
 public:
 	IdAndPassword();  //提供初始账号和密码
-	bool judge();
+	bool judge();   //判断账号密码是否正确
 	void changePassword();  //修改密码
 	void printChange();  //显示修改密码界面
 	void cinPassword(string &s);  //输入密码，显示*

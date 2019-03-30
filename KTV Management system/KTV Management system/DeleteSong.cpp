@@ -28,8 +28,17 @@ void InfoHandle::deleteSong()
 			cout << "                        ";
 		}
 		else {
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
+			Draw::gotoxy(28, 12);
+			cout << "歌曲信息如下:";
+			Draw::gotoxy(34, 13);
+			cout << "1.歌名:" << songs[num - 1].songName;
+			Draw::gotoxy(34, 14);
+			cout << "2.歌手:" << songs[num - 1].singerName;
+			Draw::gotoxy(34, 15);
+			cout << "3.歌名缩写:" << songs[num - 1].songAbbreviation;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-			Draw::gotoxy(30, 12);
+			Draw::gotoxy(30, 16);
 			cout << "确定要删除吗(y/n):";
 			char c;
 			while (1)
@@ -44,10 +53,10 @@ void InfoHandle::deleteSong()
 					for (; it != songs.end(); ++it)
 						it->id--;
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
-					Draw::gotoxy(34, 14);
+					Draw::gotoxy(34, 17);
 					cout << "删除成功！！！";
 					Sleep(750);
-					Draw::gotoxy(34, 14);
+					Draw::gotoxy(34, 17);
 					cout << "              ";
 					break;
 				}
@@ -63,8 +72,11 @@ void InfoHandle::deleteSong()
 					Draw::gotoxy(48, 12);
 				}
 			}
-			Draw::gotoxy(28, 12);
-			cout << "                         ";
+			for (int i = 0; i < 5; ++i)
+			{
+				Draw::gotoxy(28, 12+i);
+				cout << "                           ";
+			}
 		}
 	}
 }

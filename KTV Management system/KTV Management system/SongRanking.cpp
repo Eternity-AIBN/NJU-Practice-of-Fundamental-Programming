@@ -1,24 +1,12 @@
 #include"InfoHandle.h"
+#include<algorithm>
 
-int InfoHandle::getInput()
+bool compareScore(const Song &a, const Song &b)
 {
-	int ch;
-	while (1)
-	{
-		ch = _getch();
-		if (ch == 27)return 0; //0表示esc
-		if (ch == 224)
-		{
-			ch = _getch();
-			if (ch == 72)return 1; //1表示↑
-			if (ch == 80)return 2; //2表示↓
-		}
-		if (ch > 48 && ch < 52)
-			return ch - 46;
-	}
+	return a.score > b.score;
 }
 
-void InfoHandle::songInquire()
+void InfoHandle::songRanking()
 {
 	system("cls");
 	int count = 1;//第几页
@@ -28,21 +16,25 @@ void InfoHandle::songInquire()
 	int sum = songs.size() / 10 + m;  //共几页
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
-	Draw::drawRect(26, 7, 45, 16);
-	Draw::drawHorizontal(27, 8, 44, '-');
+	Draw::drawRect(26, 7, 55, 16);
+	Draw::drawHorizontal(27, 8, 54, '-');
 	Draw::gotoxy(28, 21);
 	cout << "第 " << count << " 页，共 " << sum << " 页";
 	Draw::gotoxy(28, 22);
 	cout << "上一页↑，下一页↓，esc返回主页";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 	Draw::gotoxy(30, 7);
+	cout << "歌曲排行";
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+	Draw::gotoxy(43, 7);
 	cout << "编号";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-	Draw::gotoxy(43, 7);
+	Draw::gotoxy(53, 7);
 	cout << "歌曲名";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_RED);
-	Draw::gotoxy(60, 7);
+	Draw::gotoxy(70, 7);
 	cout << "歌手名";
+	sort(songs.begin(), songs.end(), compareScore);
 	while (1)
 	{
 		for (int i = 0; i < 10; ++i)
@@ -50,8 +42,10 @@ void InfoHandle::songInquire()
 			Draw::gotoxy(30, 9 + i);
 			cout << "   ";
 			Draw::gotoxy(43, 9 + i);
+			cout << "   ";
+			Draw::gotoxy(53, 9 + i);
 			cout << "              ";
-			Draw::gotoxy(60, 9 + i);
+			Draw::gotoxy(70, 9 + i);
 			cout << "     ";
 		}
 		Draw::gotoxy(31, 21);
@@ -61,12 +55,15 @@ void InfoHandle::songInquire()
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 			Draw::gotoxy(30, 9 + i);
+			cout << songs[i + n].score;
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+			Draw::gotoxy(43, 9 + i);
 			cout << songs[i + n].id;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-			Draw::gotoxy(43, 9 + i);
+			Draw::gotoxy(53, 9 + i);
 			cout << songs[i + n].songName;
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_RED);
-			Draw::gotoxy(60, 9 + i);
+			Draw::gotoxy(70, 9 + i);
 			cout << songs[i + n].singerName;
 		}
 		int flag = getInput();
