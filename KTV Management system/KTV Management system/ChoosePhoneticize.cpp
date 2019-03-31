@@ -18,13 +18,13 @@ void InfoHandle::choosePhoneticize()
 	Draw::gotoxy(40, 8);
 	cout << "***Æ´Òôµã¸è***";
 	Draw::gotoxy(28, 10);
-	cout << "ÇëÊäÈëÒª²éÕÒµÄ¸èÇúÆ´Òô(ÊäÈëend½áÊø)£º";
+	cout << "ÊäÈëÒª²éÕÒµÄ¸èÇúÆ´Òô(end½áÊø)£º";
 	while (1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
-		Draw::gotoxy(61, 10);
+		Draw::gotoxy(59, 10);
 		cout << "        ";
-		Draw::gotoxy(61, 10);
+		Draw::gotoxy(59, 10);
 		cin >> name;
 		if (name == "end")return;
 		judgeSongPhoneticize(findSong, name);

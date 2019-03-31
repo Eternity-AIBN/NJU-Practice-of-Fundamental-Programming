@@ -13,7 +13,7 @@ int InfoHandle::getInput()
 			if (ch == 72)return 1; //1表示↑
 			if (ch == 80)return 2; //2表示↓
 		}
-		if (ch > 48 && ch < 52)
+		if (ch > 48 && ch < 53)
 			return ch - 46;
 	}
 }
@@ -52,7 +52,7 @@ void InfoHandle::songInquire()
 			Draw::gotoxy(43, 9 + i);
 			cout << "              ";
 			Draw::gotoxy(60, 9 + i);
-			cout << "     ";
+			cout << "        ";
 		}
 		Draw::gotoxy(31, 21);
 		cout << count;

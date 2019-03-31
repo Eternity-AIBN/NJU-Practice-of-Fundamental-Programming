@@ -100,19 +100,22 @@ bool IdAndPassword::checkFormat(const string &s)
 void IdAndPassword::changePassword()
 {
 	string newPassword, tmp;
+	int times2 = 3;
 	while (1)
 	{
 		Draw::gotoxy(40, 11);
 		cinPassword(tmp);
 		if (tmp != passwordNum)  //æ…√‹¬Î¥ÌŒÛ
 		{
+			times2--;
 			Draw::gotoxy(32, 15);
-			cout << "√‹¬Î¥ÌŒÛ£¨«Î÷ÿ–¬ ‰»Î";
+			cout << "√‹¬Î¥ÌŒÛ£¨( £" << times2 << "¥Œª˙ª·)";
 			Sleep(750);
 			Draw::gotoxy(32, 15);
-			cout << "                    ";
+			cout << "                           ";
 			Draw::gotoxy(40, 11);
 			cout << "               ";
+			if (times2 == 0)return;
 		}
 		else {
 			while (1) {

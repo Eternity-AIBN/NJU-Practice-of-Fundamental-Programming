@@ -46,10 +46,12 @@ int MainInterface::mainChoice()
 {
 	int n;
 	while (1) {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 		Draw::gotoxy(37, 18);
 		cin >> n;
 		if (n < 0 || n > 2)
 		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
 			Draw::gotoxy(30, 19);
 			cout << "没有此选项，请重新选择...";
 			Sleep(1000);

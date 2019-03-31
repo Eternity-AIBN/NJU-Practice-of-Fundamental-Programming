@@ -23,7 +23,7 @@ void InfoHandle::chooseSongName()
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 		Draw::gotoxy(40, 11);
-		cout << "        ";
+		cout << "                  ";
 		Draw::gotoxy(40, 11);
 		cin >> name;
 		if (name == "end")return;

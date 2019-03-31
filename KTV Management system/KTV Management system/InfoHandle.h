@@ -22,7 +22,6 @@ public:
 	static void chooseSongName();  //歌名点歌
 	static void choosePhoneticize();  //拼音点歌
 	static void haveSelected();  //查看已点歌曲
-	static void cutSong();   //切歌
 
 	static bool judgeExist(const Song &tmp);  //判断歌单中是否存在tmp
 	static int getInput();  //判断输入的按键

@@ -52,6 +52,7 @@ void InfoHandle::bulkImport()
 	cout << "请输入导入的文件名：";
 	while (1)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 		Draw::gotoxy(48, 10);
 		cout << "          ";
 		string fileName;
