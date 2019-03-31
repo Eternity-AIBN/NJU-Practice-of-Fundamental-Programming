@@ -61,6 +61,8 @@ void InfoHandle::choosePhoneticize()
 					int locate = judgeID(findSong, num);
 					if (locate != -1)
 					{
+						if (mySong.empty())
+							findSong[locate].status = 0;
 						mySong.push_back(findSong[locate]);
 						Draw::gotoxy(34, 13 + i);
 						cout << "Ìí¼Ó³É¹¦£¡£¡£¡";

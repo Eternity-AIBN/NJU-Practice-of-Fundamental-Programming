@@ -6,7 +6,7 @@ bool compareSerialNum(const Song &a, const Song &b)
 	return a.serialNum < b.serialNum;
 }
 
-void placeAtTop()   //歌曲置顶
+void placeAtTop(int m)   //歌曲置顶
 {
 	unsigned int n;
 	while (1) {
@@ -16,20 +16,35 @@ void placeAtTop()   //歌曲置顶
 		cin >> n;
 		if (n > 0 && n <= mySong.size())
 		{
-			mySong[n - 1].status = 0;
-			mySong[0].status = 1;
-			mySong[n - 1].serialNum = 1;
-			for (unsigned int i = 0; i < n - 1; i++)
-				mySong[i].serialNum++;
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-			Draw::gotoxy(35, 27);
-			cout << "置顶成功！！！";
-			Sleep(750);
-			Draw::gotoxy(35, 27);
-			cout << "              ";
-			Draw::gotoxy(28, 26);
-			cout << "                         ";
-			break;
+			unsigned int i = 0;
+			for (; i < 10 && i + m < mySong.size(); ++i) //找到正在播放的歌曲
+				if (mySong[i].status == 0)break;
+			if (n <= i)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+				Draw::gotoxy(35, 27);
+				cout << "置顶失败";
+				Sleep(750);
+				Draw::gotoxy(35, 27);
+				cout << "         ";
+				Draw::gotoxy(28, 26);
+				cout << "                         ";
+				break;
+			}
+			else {
+				mySong[n - 1].serialNum = i + 2;
+				for (unsigned int j = i + 1; j < n - 1; j++)
+					mySong[j].serialNum++;
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+				Draw::gotoxy(35, 27);
+				cout << "置顶成功！！！";
+				Sleep(750);
+				Draw::gotoxy(35, 27);
+				cout << "              ";
+				Draw::gotoxy(28, 26);
+				cout << "                         ";
+				break;
+			}
 		}
 		else {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
@@ -111,20 +126,31 @@ void removeSong()
 		cin >> n;
 		if (n > 0 && n <= mySong.size())
 		{
-			vector<Song>::iterator it = mySong.begin();
-			for (; it->serialNum != n; ++it);
-			it = mySong.erase(it);
-			for (; it != mySong.end(); ++it)
-				it->serialNum--;
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-			Draw::gotoxy(35, 27);
-			cout << "移除成功！！！";
-			Sleep(750);
-			Draw::gotoxy(35, 27);
-			cout << "              ";
-			Draw::gotoxy(28, 26);
-			cout << "                        ";
-			break;
+			if (mySong[n - 1].status == 0)
+			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+				Draw::gotoxy(35, 27);
+				cout << "该歌曲正在播放,移除失败";
+				Sleep(750);
+				Draw::gotoxy(35, 27);
+				cout << "                        ";
+			}
+			else {
+				vector<Song>::iterator it = mySong.begin();
+				for (; it->serialNum != n; ++it);
+				it = mySong.erase(it);
+				for (; it != mySong.end(); ++it)
+					it->serialNum--;
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+				Draw::gotoxy(35, 27);
+				cout << "移除成功！！！";
+				Sleep(750);
+				Draw::gotoxy(35, 27);
+				cout << "              ";
+				Draw::gotoxy(28, 26);
+				cout << "                          ";
+				break;
+			}
 		}
 		else {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
@@ -137,18 +163,38 @@ void removeSong()
 	}
 }
 
-void cutTheSong()
+void cutTheSong(int m)
 {
-	vector<Song>::iterator it = mySong.begin();
-	it = mySong.erase(it);
-	for (; it != mySong.end(); ++it)
-		it->serialNum--;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-	Draw::gotoxy(40, 27);
-	cout << "切歌成功！！！";
-	Sleep(750);
-	Draw::gotoxy(40, 27);
-	cout << "              ";
+	unsigned int i = 0;
+	for (; i < 10 && i + m < mySong.size(); ++i) //找到正在播放的歌曲
+		if (mySong[i].status == 0)
+		{
+			Draw::gotoxy(60, 9 + i);
+			cout << mySong[i].singerName << "           ";
+			mySong[i].status = 1;
+			break;
+		}
+	if (i + m == mySong.size())
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+		Draw::gotoxy(35, 9 + i);
+		cout << "当前无歌曲正在播放";
+		Sleep(750);
+		Draw::gotoxy(35, 9 + i);
+		cout << "                   ";
+	}
+	else {
+		/*SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
+		Draw::gotoxy(60, 9 + i + 1);
+		cout << mySong[i].singerName << "---正在播放";*/
+		mySong[i + 1].status = 0;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+		Draw::gotoxy(40, 27);
+		cout << "切歌成功！！！";
+		Sleep(750);
+		Draw::gotoxy(40, 27);
+		cout << "              ";
+	}
 }
 
 void InfoHandle::haveSelected()
@@ -215,8 +261,13 @@ void InfoHandle::haveSelected()
 			cout << mySong[i + n].singerName;
 		}
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
-		Draw::gotoxy(60, 9);
-		cout << mySong[n].singerName << "---正在播放";
+		for (unsigned int i = 0; i < 10 && i + n < mySong.size(); ++i) //显示正在播放的歌曲
+			if (mySong[i].status == 0)
+			{
+				Draw::gotoxy(60, 9 + i);
+				cout << mySong[i].singerName << "---正在播放";
+				break;
+			}
 		Draw::gotoxy(28, 24);
 		cout << "输入1:置顶歌曲  2:移除歌曲  3:切歌  4:评分";
 		int flag = getInput();
@@ -225,9 +276,9 @@ void InfoHandle::haveSelected()
 		case 0:return;
 		case 1:if (count > 1)count--; break;
 		case 2:if (count > sum)count++; break;
-		case 3:placeAtTop(); break;
+		case 3:placeAtTop(n); break;
 		case 4:removeSong(); break;
-		case 5:cutTheSong(); break;
+		case 5:cutTheSong(n); break;
 		case 6:giveScore(); break;
 		default:
 			break;
