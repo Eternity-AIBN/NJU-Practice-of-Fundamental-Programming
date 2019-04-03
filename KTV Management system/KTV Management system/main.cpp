@@ -47,9 +47,9 @@ void init()  //≥ı ºªØ∏Ëµ•
 int main()
 {
 	ios::sync_with_stdio(false);
+	system("mode 100,30");
 
 	IdAndPassword idAndPassword;
-	system("mode 100,30");
 
 	init();
 
@@ -61,8 +61,7 @@ int main()
 			AdminInterface::run();
 		else if (choice == 1)
 			UserInterface::run();
-		else if (choice == 2)return 0;
+		else if (choice == 2) return 0;
 	}
-
 }
 

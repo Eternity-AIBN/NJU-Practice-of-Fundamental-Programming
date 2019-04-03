@@ -5,8 +5,8 @@
 class AdminInterface
 {
 public:
-	static void printAdmin();  //显示用户界面
+	static void printAdmin();  //显示管理员界面
 	static int adminChoice();  //选择功能
-	static void run();
+	static void run();         //运行
 
 };

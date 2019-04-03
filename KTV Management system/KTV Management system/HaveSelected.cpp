@@ -116,7 +116,7 @@ void giveScore()
 	cout << "                                         ";
 }
 
-void removeSong()
+void removeSong(int m)
 {
 	unsigned int n;
 	while (1) {
@@ -136,6 +136,12 @@ void removeSong()
 				cout << "                        ";
 			}
 			else {
+				unsigned int i = 0;
+				for (; i < 10 && i + m < mySong.size(); ++i) //找到正在播放的歌曲
+					if (mySong[i].status == 0)break;
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
+				Draw::gotoxy(60, 9 + i);
+				cout << mySong[i].singerName << "            ";
 				vector<Song>::iterator it = mySong.begin();
 				for (; it->serialNum != n; ++it);
 				it = mySong.erase(it);
@@ -277,7 +283,7 @@ void InfoHandle::haveSelected()
 		case 1:if (count > 1)count--; break;
 		case 2:if (count > sum)count++; break;
 		case 3:placeAtTop(n); break;
-		case 4:removeSong(); break;
+		case 4:removeSong(n); break;
 		case 5:cutTheSong(n); break;
 		case 6:giveScore(); break;
 		default:

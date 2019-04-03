@@ -24,7 +24,7 @@ void InfoHandle::songRanking()
 	cout << "上一页↑，下一页↓，esc返回主页";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 	Draw::gotoxy(30, 7);
-	cout << "歌曲排行";
+	cout << "评分";
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 	Draw::gotoxy(43, 7);
 	cout << "编号";

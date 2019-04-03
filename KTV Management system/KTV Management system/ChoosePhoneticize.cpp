@@ -24,6 +24,7 @@ void InfoHandle::choosePhoneticize()
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 		Draw::gotoxy(59, 10);
 		cout << "        ";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 		Draw::gotoxy(59, 10);
 		cin >> name;
 		if (name == "end")return;
@@ -38,6 +39,7 @@ void InfoHandle::choosePhoneticize()
 			cout << "                           ";
 		}
 		else {    //歌曲存在
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 			Draw::gotoxy(28, 11);
 			cout << "相关歌曲如下：";
 			unsigned int i = 0;
@@ -55,6 +57,7 @@ void InfoHandle::choosePhoneticize()
 				Draw::gotoxy(28, 12 + i);
 				cout << "请选择你要添加的歌曲ID(输入0结束)：   \b\b\b";
 				int num;
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 				cin >> num;
 				if (num == 0)break;
 				else {
@@ -64,16 +67,17 @@ void InfoHandle::choosePhoneticize()
 						if (mySong.empty())
 							findSong[locate].status = 0;
 						mySong.push_back(findSong[locate]);
-						Draw::gotoxy(34, 13 + i);
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+						Draw::gotoxy(36, 14 + i);
 						cout << "添加成功！！！";
 					}
 					else {
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-						Draw::gotoxy(34, 13 + i);
+						Draw::gotoxy(36, 14 + i);
 						cout << "歌曲不存在！请重新选择...";
 					}
 					Sleep(750);
-					Draw::gotoxy(34, 13 + i);
+					Draw::gotoxy(36, 14 + i);
 					cout << "                          ";
 				}
 			}
