@@ -172,7 +172,7 @@ void removeSong(int m)
 void cutTheSong(int m)
 {
 	unsigned int i = 0;
-	for (; i < 10 && i + m < mySong.size(); ++i) //找到正在播放的歌曲
+	for (; i < 10 && i + m + 1< mySong.size(); ++i) //找到正在播放的歌曲
 		if (mySong[i].status == 0)
 		{
 			Draw::gotoxy(60, 9 + i);
@@ -180,25 +180,24 @@ void cutTheSong(int m)
 			mySong[i].status = 1;
 			break;
 		}
-	if (i + m == mySong.size())
+	if (i + m + 1== mySong.size())
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
-		Draw::gotoxy(35, 9 + i);
-		cout << "当前无歌曲正在播放";
+		Draw::gotoxy(45, 26);
+		cout << "切歌失败！！！";
 		Sleep(750);
-		Draw::gotoxy(35, 9 + i);
-		cout << "                   ";
+		Draw::gotoxy(45, 26);
+		cout << "                ";
 	}
 	else {
-		/*SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
-		Draw::gotoxy(60, 9 + i + 1);
-		cout << mySong[i].singerName << "---正在播放";*/
 		mySong[i + 1].status = 0;
+		nowTheSong = mySong[i + 1].singerName + "-" + mySong[i + 1].songName;
+		cutSongFlag = true;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-		Draw::gotoxy(40, 27);
+		Draw::gotoxy(45, 26);
 		cout << "切歌成功！！！";
 		Sleep(750);
-		Draw::gotoxy(40, 27);
+		Draw::gotoxy(45, 26);
 		cout << "              ";
 	}
 }

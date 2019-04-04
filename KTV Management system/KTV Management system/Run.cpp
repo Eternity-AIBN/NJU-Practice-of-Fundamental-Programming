@@ -34,6 +34,7 @@ void AdminInterface::run()
 
 void UserInterface::run()
 {
+	InfoHandle info;
 	UserInterface::printUser();
 	while (1)
 	{
@@ -41,9 +42,9 @@ void UserInterface::run()
 		int choice = UserInterface::userChoice();
 		switch (choice)
 		{
-		case 0:InfoHandle::chooseSinger(); break;
-		case 1:InfoHandle::chooseSongName(); break;
-		case 2:InfoHandle::choosePhoneticize(); break;
+		case 0:info.chooseSinger(); break;
+		case 1:info.chooseSongName(); break;
+		case 2:info.choosePhoneticize(); break;
 		case 3:InfoHandle::haveSelected(); break;
 		case 4:return;
 		}

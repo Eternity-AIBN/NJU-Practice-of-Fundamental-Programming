@@ -1,5 +1,10 @@
 #pragma once
 #include"Draw.h"
+#include<string>
+using namespace std;
+
+extern string nowTheSong;
+extern bool cutSongFlag; 
 
 class UserInterface
 {

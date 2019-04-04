@@ -2,6 +2,8 @@
 #include"Draw.h"
 #include<string>
 
+extern bool switchAdmin;
+
 class AdminInterface
 {
 public:

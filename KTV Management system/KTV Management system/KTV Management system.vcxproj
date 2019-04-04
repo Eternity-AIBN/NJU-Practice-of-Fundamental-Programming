@@ -168,6 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainInterface.cpp" />
     <ClCompile Include="ModifyInfo.cpp" />
+    <ClCompile Include="PlayMusic.cpp" />
     <ClCompile Include="Run.cpp" />
     <ClCompile Include="SongQuery.cpp" />
     <ClCompile Include="SongRanking.cpp" />

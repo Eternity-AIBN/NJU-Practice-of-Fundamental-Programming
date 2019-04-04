@@ -71,8 +71,13 @@ void InfoHandle::chooseSinger()
 					int locate = judgeID(findSong, num);
 					if (locate != -1)
 					{
-						if (mySong.empty())
+						if (mySong.empty())  //¸èµ¥ÖÐÉÐÎÞ¸èÇú
+						{
 							findSong[locate].status = 0;
+							nowTheSong = findSong[locate].singerName + "-" + findSong[locate].songName;
+							th = thread(&InfoHandle::playMusic, this);
+							th.detach();
+						}
 						mySong.push_back(findSong[locate]);
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 						Draw::gotoxy(36, 14 + i);

@@ -3,13 +3,23 @@
 #include"Draw.h"
 #include<iostream>
 #include<conio.h>
+#include <mmsystem.h>
+#include<thread>
+#include<string>
 using namespace std;
+#pragma comment(lib, "WINMM.LIB")
 
 extern vector<Song> songs;
-extern vector<Song> mySong;  
+extern vector<Song> mySong; 
+extern string nowTheSong;
+extern bool cutSongFlag;
+extern bool switchAdmin;
 
 class InfoHandle
 {
+	thread th;    //创建一个子线程用于播放音乐
+	void playMusic();   //播放音乐
+
 public:
 	static void songInquire();  //歌曲信息查询
 	static void addSong();   //增加歌曲
@@ -18,9 +28,9 @@ public:
 	static void modifyInfo();  //修改歌曲信息
 	static void songRanking(); //歌曲排行
 
-	static void chooseSinger(); //歌手点歌
-	static void chooseSongName();  //歌名点歌
-	static void choosePhoneticize();  //拼音点歌
+	void chooseSinger(); //歌手点歌
+	void chooseSongName();  //歌名点歌
+	void choosePhoneticize();  //拼音点歌
 	static void haveSelected();  //查看已点歌曲
 
 	static bool judgeExist(const Song &tmp);  //判断歌单中是否存在tmp
