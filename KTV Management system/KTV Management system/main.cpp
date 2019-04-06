@@ -18,7 +18,7 @@ bool switchAdmin = false;   //判断是否切换到管理员界面
 
 void init()  //初始化歌单
 {
-	ifstream fin("in2.txt");
+	ifstream fin("in.txt");
 	if (!fin.is_open())   //文件打开失败
 	{
 		cerr << "Error" << endl;

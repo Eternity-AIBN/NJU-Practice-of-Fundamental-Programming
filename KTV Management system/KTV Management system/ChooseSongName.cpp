@@ -68,8 +68,10 @@ void InfoHandle::chooseSongName()
 						{
 							findSong[locate].status = 0;
 							nowTheSong = findSong[locate].singerName + "-" + findSong[locate].songName;
-							th = thread(&InfoHandle::playMusic, this);
-							th.detach();
+							th1 = thread(&InfoHandle::playMusic, this);
+							th2 = thread(&InfoHandle::printLyrics, this);
+							th1.detach();
+							th2.detach();
 						}
 						mySong.push_back(findSong[locate]);
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);

@@ -3,11 +3,11 @@
 #include"Draw.h"
 #include<iostream>
 #include<conio.h>
-#include <mmsystem.h>
-#include<thread>
 #include<string>
-using namespace std;
+#include<thread>
+#include <mmsystem.h>
 #pragma comment(lib, "WINMM.LIB")
+using namespace std;
 
 extern vector<Song> songs;
 extern vector<Song> mySong; 
@@ -17,8 +17,10 @@ extern bool switchAdmin;
 
 class InfoHandle
 {
-	thread th;    //创建一个子线程用于播放音乐
-	void playMusic();   //播放音乐
+	thread th1;    //创建一个子线程用于播放音乐
+	thread th2;    //创建另一个子线程用于打印歌词
+    void playMusic();   //播放音乐
+	void printLyrics();   //打印歌词
 
 public:
 	static void songInquire();  //歌曲信息查询

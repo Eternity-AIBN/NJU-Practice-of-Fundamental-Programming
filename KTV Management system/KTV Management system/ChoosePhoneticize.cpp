@@ -58,6 +58,7 @@ void InfoHandle::choosePhoneticize()
 				cout << "请选择你要添加的歌曲ID(输入0结束)：   \b\b\b";
 				int num;
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
+				Draw::gotoxy(63, 12 + i);
 				cin >> num;
 				if (num == 0)break;
 				else {
@@ -68,8 +69,10 @@ void InfoHandle::choosePhoneticize()
 						{
 							findSong[locate].status = 0;
 							nowTheSong = findSong[locate].singerName + "-" + findSong[locate].songName;
-							th = thread(&InfoHandle::playMusic, this);
-							th.detach();
+							th1 = thread(&InfoHandle::playMusic, this);
+							th2 = thread(&InfoHandle::printLyrics, this);
+							th1.detach();
+							th2.detach();
 						}
 						mySong.push_back(findSong[locate]);
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
