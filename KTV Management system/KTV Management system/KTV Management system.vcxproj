@@ -151,6 +151,7 @@
     <ClInclude Include="IdAndPassword.h" />
     <ClInclude Include="InfoHandle.h" />
     <ClInclude Include="MainInterface.h" />
+    <ClInclude Include="PlayMusic.h" />
     <ClInclude Include="Songs.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>

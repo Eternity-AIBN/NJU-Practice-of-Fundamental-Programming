@@ -1,8 +1,8 @@
 #define _SCL_SECURE_NO_WARNINGS
-#include"InfoHandle.h"
+#include"PlayMusic.h"
 #include<fstream>
 
-void InfoHandle::playMusic()
+void PlayMusic::playMusic()
 {
 	while (1) {
 		string tmp = "open " + nowTheSong + ".mp3 alias song";
@@ -15,20 +15,19 @@ void InfoHandle::playMusic()
 			{
 				mciSendString(TEXT("close song"), NULL, 0, NULL);   //关闭上一首歌
 				cutSongFlag1 = false;
-				Sleep(2000);   //与显示歌词的线程保持同步
+				Sleep(1800);   //与显示歌词的线程保持同步
 				break;
 			}
-			if (backToMain == true)
+			if (backToMain == true)  //回到主界面，线程结束
 			{
 				mciSendString(TEXT("close song"), NULL, 0, NULL);
-				cutSongFlag2 = false;
 				return;
 			}
 		}
 	}
 }
 
-void InfoHandle::printLyrics()
+void PlayMusic::printLyrics()
 {
 	while (1) {
 		vector<string> lyrics; //歌词
@@ -70,7 +69,7 @@ void InfoHandle::printLyrics()
 				cutSongFlag2 = false;
 				break;
 			}
-			if (backToMain == true)
+			if (backToMain == true)  //回到主界面，线程结束
 			{
 				Draw::gotoxy(30, 26);
 				cout << "                                   ";

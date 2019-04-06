@@ -41,11 +41,12 @@ void UserInterface::run()
 		UserInterface::printUser();
 		if (backToUser)
 		{
-			InfoHandle *const this1 = &info;
-			info.th1 = thread(&InfoHandle::playMusic, this1);
-			info.th2 = thread(&InfoHandle::printLyrics, this1);
-			info.th1.detach();
-			info.th2.detach();
+			PlayMusic play;
+			PlayMusic *const this1 = &play;
+			play.th1 = thread(&PlayMusic::playMusic, this1);
+			play.th2 = thread(&PlayMusic::printLyrics, this1);
+			play.th1.detach();
+			play.th2.detach();
 		}
 		int choice = UserInterface::userChoice();
 		switch (choice)

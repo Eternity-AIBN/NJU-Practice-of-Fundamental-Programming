@@ -66,12 +66,14 @@ void InfoHandle::chooseSongName()
 					{
 						if (mySong.empty())  //¸èµ¥ÖÐÉÐÎÞ¸èÇú
 						{
+							PlayMusic play;
+							PlayMusic *const this1 = &play;
 							findSong[locate].status = 0;
 							nowTheSong = findSong[locate].singerName + "-" + findSong[locate].songName;
-							th1 = thread(&InfoHandle::playMusic, this);
-							th2 = thread(&InfoHandle::printLyrics, this);
-							th1.detach();
-							th2.detach();
+							play.th1 = thread(&PlayMusic::playMusic, this1);
+							play.th2 = thread(&PlayMusic::printLyrics, this1);
+							play.th1.detach();
+							play.th2.detach();
 						}
 						mySong.push_back(findSong[locate]);
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
