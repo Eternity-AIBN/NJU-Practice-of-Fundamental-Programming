@@ -10,14 +10,21 @@ void InfoHandle::playMusic()
 		mciSendStringA(lpc, NULL, 0, NULL);   //打开MP3文件
 		mciSendString(TEXT("play song repeat"), NULL, 0, NULL);   //播放歌曲
 		while (1)  //持续播放
-			if (cutSongFlag == true)   //切歌
+		{
+			if (cutSongFlag1 == true)   //切歌
 			{
 				mciSendString(TEXT("close song"), NULL, 0, NULL);   //关闭上一首歌
-				cutSongFlag = false;
+				cutSongFlag1 = false;
+				Sleep(2000);   //与显示歌词的线程保持同步
 				break;
 			}
-		if (switchAdmin == true)
-			return;
+			if (backToMain == true)
+			{
+				mciSendString(TEXT("close song"), NULL, 0, NULL);
+				cutSongFlag2 = false;
+				return;
+			}
+		}
 	}
 }
 
@@ -52,24 +59,39 @@ void InfoHandle::printLyrics()
 		int lastTime = (int)(time[0] * 1000);   //每句歌词显示的时间
 		unsigned int i = 0;
 		Sleep(lastTime);
-		Sleep(1000);
+		Sleep(1000);    //打开mp3文件延迟
 		for (; i < time.size() - 1; ++i)  //打印歌词
 		{
-			if (cutSongFlag == true) //切歌
+			if (cutSongFlag2 == true) //切歌
+			{
+				Draw::gotoxy(30, 26);
+				cout << "                                   ";
+				input.close();
+				cutSongFlag2 = false;
 				break;
+			}
+			if (backToMain == true)
+			{
+				Draw::gotoxy(30, 26);
+				cout << "                                   ";
+				input.close();
+				backToMain = false;
+				return;
+			}
 			lyrics[i + 4].assign(lyrics[i + 4], 10, lyrics[i + 4].size() - 10);
-			Draw::gotoxy(30, 22);
+			Draw::gotoxy(30, 26);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE);
 			cout << lyrics[i + 4] << endl;
 			lastTime = (int)((time[i + 1] - time[i]) * 1000);
 			Sleep(lastTime);
-			Draw::gotoxy(30, 22);
-			cout << "                                   " << endl;
+			Draw::gotoxy(30, 26);
+			cout << "                                   ";
 		}
 		if (i == time.size() - 1)   //打印最后一句歌词
 		{
+			Draw::gotoxy(30, 26);
 			lyrics[i + 4].assign(lyrics[i + 4], 10, lyrics[i + 4].size() - 10);
-			cout << lyrics[i + 4] << endl;
+			cout << lyrics[i + 4];
 		}
 	}
 }

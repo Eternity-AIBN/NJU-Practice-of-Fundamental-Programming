@@ -13,12 +13,14 @@ using namespace std;
 vector<Song> songs, mySong;
 IdAndPassword idAndPassword;
 string nowTheSong;   //正在播放的歌曲
-bool cutSongFlag = false;   //判断是否切歌
-bool switchAdmin = false;   //判断是否切换到管理员界面
+bool cutSongFlag1 = false;   //判断是否切歌(用于音乐播放)
+bool cutSongFlag2 = false;   //判断是否切歌(用于显示歌词)
+bool backToMain = false;   //判断是否返回到主界面
+bool backToUser = false;   //判断是否返回到用户界面
 
 void init()  //初始化歌单
 {
-	ifstream fin("in.txt");
+	ifstream fin("in2.txt");
 	if (!fin.is_open())   //文件打开失败
 	{
 		cerr << "Error" << endl;
@@ -63,7 +65,10 @@ int main()
 		if (choice == 0)
 			AdminInterface::run();
 		else if (choice == 1)
+		{
+			backToMain = false;  
 			UserInterface::run();
+		}
 		else if (choice == 2) return 0;
 	}
 }

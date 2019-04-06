@@ -39,14 +39,22 @@ void UserInterface::run()
 	while (1)
 	{
 		UserInterface::printUser();
+		if (backToUser)
+		{
+			InfoHandle *const this1 = &info;
+			info.th1 = thread(&InfoHandle::playMusic, this1);
+			info.th2 = thread(&InfoHandle::printLyrics, this1);
+			info.th1.detach();
+			info.th2.detach();
+		}
 		int choice = UserInterface::userChoice();
 		switch (choice)
 		{
 		case 0:info.chooseSinger(); break;
 		case 1:info.chooseSongName(); break;
 		case 2:info.choosePhoneticize(); break;
-		case 3:InfoHandle::haveSelected(); break;
-		case 4:return;
+		case 3:info.haveSelected(); break;
+		case 4:backToMain = true; backToUser = true; return;
 		}
 	}
 }

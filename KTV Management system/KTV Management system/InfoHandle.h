@@ -12,17 +12,26 @@ using namespace std;
 extern vector<Song> songs;
 extern vector<Song> mySong; 
 extern string nowTheSong;
-extern bool cutSongFlag;
-extern bool switchAdmin;
+extern bool cutSongFlag1;
+extern bool cutSongFlag2;
+extern bool backToMain;
+extern bool backToUser;
 
 class InfoHandle
 {
-	thread th1;    //创建一个子线程用于播放音乐
+	/*thread th1;    //创建一个子线程用于播放音乐
 	thread th2;    //创建另一个子线程用于打印歌词
-    void playMusic();   //播放音乐
-	void printLyrics();   //打印歌词
+
+	void playMusic();   //播放音乐
+	void printLyrics();   //打印歌词 */
 
 public:
+	thread th1;    //创建一个子线程用于播放音乐
+	thread th2;    //创建另一个子线程用于打印歌词
+
+	void playMusic();   //播放音乐
+	void printLyrics();   //打印歌词 
+
 	static void songInquire();  //歌曲信息查询
 	static void addSong();   //增加歌曲
 	static void bulkImport();  //批量导入歌曲
@@ -45,4 +54,5 @@ public:
 
 	static int judgeID(vector<Song> &findSong, int num);  //判断输入的ID号是否在待选歌曲中,返回其在待选歌曲中序号
 	
+    //void runUser();        //运行
 };

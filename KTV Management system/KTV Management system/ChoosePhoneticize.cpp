@@ -18,14 +18,14 @@ void InfoHandle::choosePhoneticize()
 	Draw::gotoxy(40, 8);
 	cout << "***拼音点歌***";
 	Draw::gotoxy(28, 10);
-	cout << "输入要查找的歌曲拼音(end结束)：";
+	cout << "输入要查找的拼音(end结束)：";
 	while (1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
-		Draw::gotoxy(59, 10);
+		Draw::gotoxy(55, 10);
 		cout << "        ";
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-		Draw::gotoxy(59, 10);
+		Draw::gotoxy(55, 10);
 		cin >> name;
 		if (name == "end")return;
 		judgeSongPhoneticize(findSong, name);
@@ -58,7 +58,7 @@ void InfoHandle::choosePhoneticize()
 				cout << "请选择你要添加的歌曲ID(输入0结束)：   \b\b\b";
 				int num;
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-				Draw::gotoxy(63, 12 + i);
+				//Draw::gotoxy(63, 12 + i);
 				cin >> num;
 				if (num == 0)break;
 				else {

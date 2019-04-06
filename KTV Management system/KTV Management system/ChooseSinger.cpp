@@ -25,14 +25,14 @@ void InfoHandle::chooseSinger()
 	Draw::gotoxy(40, 8);
 	cout << "***歌手点歌***";
 	Draw::gotoxy(28, 10);
-	cout << "请输入要查找的歌手(输入end结束)：";
+	cout << "输入要查找的歌手(end结束)：";
 	while (1)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
-		Draw::gotoxy(61, 10);
-		cout << "        ";
+		Draw::gotoxy(55, 10);
+		cout << "          ";
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-		Draw::gotoxy(61, 10);
+		Draw::gotoxy(55, 10);
 		cin >> name;
 		if (name == "end")return;
 		judgeSinger(findSong, name);

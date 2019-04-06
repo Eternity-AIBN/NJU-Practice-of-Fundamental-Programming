@@ -192,7 +192,8 @@ void cutTheSong(int m)
 	else {
 		mySong[i + 1].status = 0;
 		nowTheSong = mySong[i + 1].singerName + "-" + mySong[i + 1].songName;
-		cutSongFlag = true;
+		cutSongFlag1 = true;
+		cutSongFlag2 = true;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 		Draw::gotoxy(45, 26);
 		cout << "ÇÐ¸è³É¹¦£¡£¡£¡";
