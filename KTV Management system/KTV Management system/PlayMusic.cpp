@@ -59,38 +59,82 @@ void PlayMusic::printLyrics()
 		unsigned int i = 0;
 		Sleep(lastTime);
 		Sleep(1000);    //打开mp3文件延迟
-		for (; i < time.size() - 1; ++i)  //打印歌词
+
+		string temp;   //打印第一句歌词
+		temp.assign(lyrics[4], 10, lyrics[4].size() - 10);
+		Draw::gotoxy(30, 27);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE);
+		cout << temp;
+		Draw::gotoxy(30, 28);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+		temp.assign(lyrics[5], 10, lyrics[5].size() - 10);
+		cout << temp;
+		lastTime = (int)((time[1] - time[0]) * 1000);
+		Sleep(lastTime);
+		for (int k = 0; k < 3; ++k)
 		{
+			Draw::gotoxy(30, 26 + k);
+			cout << "                                   ";
+		}
+
+		for (i = 1; i < time.size() - 2; ++i)  //打印第二句及之后歌词
+		{
+			string tmp[3];
 			if (cutSongFlag2 == true) //切歌
 			{
-				Draw::gotoxy(30, 26);
-				cout << "                                   ";
+				for (int k = 0; k < 3; ++k)
+				{
+					Draw::gotoxy(30, 26 + k);
+					cout << "                                   ";
+				}
 				input.close();
 				cutSongFlag2 = false;
 				break;
 			}
 			if (backToMain == true)  //回到主界面，线程结束
 			{
-				Draw::gotoxy(30, 26);
-				cout << "                                   ";
+				for (int k = 0; k < 3; ++k)
+				{
+					Draw::gotoxy(30, 26 + k);
+					cout << "                                   ";
+				}
 				input.close();
 				backToMain = false;
 				return;
 			}
-			lyrics[i + 4].assign(lyrics[i + 4], 10, lyrics[i + 4].size() - 10);
+			tmp[0].assign(lyrics[i + 3], 10, lyrics[i + 3].size() - 10);
+			tmp[1].assign(lyrics[i + 4], 10, lyrics[i + 4].size() - 10);
+			tmp[2].assign(lyrics[i + 5], 10, lyrics[i + 5].size() - 10);
+
 			Draw::gotoxy(30, 26);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+			cout << tmp[0] << endl;
+			Draw::gotoxy(30, 27);
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE);
-			cout << lyrics[i + 4] << endl;
+			cout << tmp[1] << endl;
+			Draw::gotoxy(30, 28);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+			cout << tmp[2] << endl;
+
 			lastTime = (int)((time[i + 1] - time[i]) * 1000);
+			Draw::gotoxy(55, 10);
 			Sleep(lastTime);
-			Draw::gotoxy(30, 26);
-			cout << "                                   ";
+			for (int k = 0; k < 3; ++k)
+			{
+				Draw::gotoxy(30, 26 + k);
+				cout << "                                   ";
+			}
 		}
-		if (i == time.size() - 1)   //打印最后一句歌词
+		if (i == time.size() - 2)   //打印最后一句歌词
 		{
-			Draw::gotoxy(30, 26);
 			lyrics[i + 4].assign(lyrics[i + 4], 10, lyrics[i + 4].size() - 10);
-			cout << lyrics[i + 4];
+			Draw::gotoxy(30, 26);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+			cout << lyrics[i + 4] << endl;
+			Draw::gotoxy(30, 27);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+			lyrics[i + 5].assign(lyrics[i + 5], 10, lyrics[i + 5].size() - 10);
+			cout << lyrics[i + 5];
 		}
 	}
 }

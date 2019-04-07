@@ -13,7 +13,7 @@ int InfoHandle::getInput()
 			if (ch == 72)return 1; //1表示↑
 			if (ch == 80)return 2; //2表示↓
 		}
-		if (ch > 48 && ch < 53)
+		if (ch > 48 && ch < 54)
 			return ch - 46;
 	}
 }
@@ -26,7 +26,6 @@ void InfoHandle::songInquire()
 	if (songs.size() % 10 != 0)
 		m = 1;
 	int sum = songs.size() / 10 + m;  //共几页
-	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	Draw::drawRect(26, 7, 45, 16);
 	Draw::drawHorizontal(27, 8, 44, '-');

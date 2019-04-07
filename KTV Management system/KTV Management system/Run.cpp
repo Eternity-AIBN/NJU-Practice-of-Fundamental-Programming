@@ -30,6 +30,7 @@ void AdminInterface::run()
 			case 7:return;
 			}
 		}
+	return;
 }
 
 void UserInterface::run()

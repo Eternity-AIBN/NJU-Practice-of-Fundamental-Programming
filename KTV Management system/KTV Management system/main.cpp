@@ -20,7 +20,7 @@ bool backToUser = false;   //判断是否返回到用户界面
 
 void init()  //初始化歌单
 {
-	ifstream fin("in2.txt");
+	ifstream fin("in.txt");
 	if (!fin.is_open())   //文件打开失败
 	{
 		cerr << "Error" << endl;

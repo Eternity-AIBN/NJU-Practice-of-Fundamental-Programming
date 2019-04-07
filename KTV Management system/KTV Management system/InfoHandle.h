@@ -3,7 +3,6 @@
 #include"Draw.h"
 #include"PlayMusic.h"
 #include<iostream>
-#include<conio.h>
 #include<string>
 using namespace std;
 

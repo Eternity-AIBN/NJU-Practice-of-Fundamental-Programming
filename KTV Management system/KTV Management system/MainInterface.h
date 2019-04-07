@@ -1,5 +1,6 @@
 #pragma once
 #include"Draw.h"
+#include<conio.h>
 
 class MainInterface
 {

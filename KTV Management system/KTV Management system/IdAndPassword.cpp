@@ -27,16 +27,19 @@ bool IdAndPassword::judge()
 	cin >> inputAccount;
 	while (times > 0)
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE);
 		Draw::gotoxy(38, 12);
 		cinPassword(inputPassword);
 		if (inputAccount == accountNum&&inputPassword == passwordNum)
 		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN);
 			Draw::gotoxy(29, 14);
 			cout << "登陆成功！即将为您跳转页面...";
 			Sleep(750);
 			return true;
 		}
 		times--;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
 		Draw::gotoxy(32, 14);
 		cout << "密码错误！还剩" << times << "次机会！";
 		Sleep(750);
@@ -45,6 +48,7 @@ bool IdAndPassword::judge()
 		Draw::gotoxy(32, 14);
 		cout << "                           ";
 	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
 	Draw::gotoxy(38, 14);
 	cout << "登陆失败！";
 	Sleep(750);
