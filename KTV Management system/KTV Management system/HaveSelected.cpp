@@ -12,7 +12,7 @@ void placeAtTop(int m)   //∏Ë«˙÷√∂•
 	while (1) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 		Draw::gotoxy(28, 26);
-		cout << " ‰»Îƒ„œÎ÷√∂•µƒ∏Ë«˙–Ú∫≈£∫   \b\b\b";
+		cout << " ‰»ÎœÎ÷√∂•µƒ∏Ë«˙–Ú∫≈£∫    \b\b\b\b";
 		cin >> n;
 		if (n > 0 && n <= mySong.size())
 		{
@@ -192,12 +192,17 @@ void cutTheSong(int m)
 	else {
 		mySong[i + 1].status = 0;
 		nowTheSong = mySong[i + 1].singerName + "-" + mySong[i + 1].songName;
-		cutSongFlag1 = true;
 		cutSongFlag2 = true;
+		cutSongFlag1 = true;
+		/*PlayMusic play;
+		PlayMusic *const this1 = &play;
+		play.th2 = thread(&PlayMusic::printLyrics, this1);
+		play.th2.detach();*/
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 		Draw::gotoxy(45, 26);
 		cout << "«–∏Ë≥…π¶£°£°£°";
-		Sleep(750);
+		Sleep(800);
+		cutSongFlag1 = true;
 		Draw::gotoxy(45, 26);
 		cout << "              ";
 	}
@@ -247,7 +252,7 @@ void InfoHandle::haveSelected()
 			Draw::gotoxy(43, 9 + i);
 			cout << "              ";
 			Draw::gotoxy(60, 9 + i);
-			cout << "     ";
+			cout << "               ";
 		}
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_RED);
 		Draw::gotoxy(31, 21);
@@ -281,7 +286,7 @@ void InfoHandle::haveSelected()
 		{
 		case 0:return;
 		case 1:if (count > 1)count--; break;
-		case 2:if (count > sum)count++; break;
+		case 2:if (count < sum)count++; break;
 		case 3:placeAtTop(n); break;
 		case 4:removeSong(n); break;
 		case 5:cutTheSong(n); break;
