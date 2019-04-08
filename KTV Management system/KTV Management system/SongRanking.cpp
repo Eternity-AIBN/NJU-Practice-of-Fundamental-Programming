@@ -10,10 +10,7 @@ void InfoHandle::songRanking()
 {
 	system("cls");
 	int count = 1;//第几页
-	int m = 0;
-	if (songs.size() % 10 != 0)
-		m = 1;
-	int sum = songs.size() / 10 + m;  //共几页
+	int sum = (songs.size() + 9) / 10;  //共几页
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	Draw::drawRect(26, 7, 55, 16);

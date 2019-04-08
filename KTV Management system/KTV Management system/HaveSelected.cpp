@@ -71,7 +71,7 @@ void giveScore()
 		{
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
 			Draw::gotoxy(34, 27);
-			cout << "输入分数(1-5):    \b\b\b\b";
+			cout << "输入分数(1-5):     \b\b\b\b\b";
 			cin >> mySong[n - 1].score;
 			while (mySong[n - 1].score < 1 || mySong[n - 1].score>5)
 			{

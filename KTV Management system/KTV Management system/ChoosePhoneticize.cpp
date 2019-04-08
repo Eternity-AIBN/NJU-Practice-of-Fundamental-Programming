@@ -40,10 +40,7 @@ void InfoHandle::choosePhoneticize()
 		}
 		else {    //歌曲存在
 			int count = 1;//第几页
-			int m = 0;
-			if (findSong.size() % 5 != 0)
-				m = 1;
-			int sum = findSong.size() / 5 + m;  //共几页
+			int sum = (findSong.size() + 4) / 5;  //共几页
 
 			Draw::gotoxy(28, 17);
 			cout << "第 " << count << " 页，共 " << sum << " 页";

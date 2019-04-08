@@ -3,7 +3,6 @@
 using namespace std;
 void UserInterface::printUser()
 {
-	system("mode 100,30");
 	system("cls");
 	Draw::drawFrame(15);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);

@@ -52,7 +52,7 @@ void init()  //≥ı ºªØ∏Ëµ•
 int main()
 {
 	ios::sync_with_stdio(false);
-	system("mode 100,30");
+	system("mode 100,34");
 
 	IdAndPassword idAndPassword;
 

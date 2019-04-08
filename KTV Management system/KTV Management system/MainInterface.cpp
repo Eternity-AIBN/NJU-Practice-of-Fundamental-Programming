@@ -3,7 +3,6 @@
 using namespace std;
 void MainInterface::printMain()
 {
-	system("mode 100,30");
 	system("cls");
 	Draw::drawFrame(12);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
@@ -23,7 +22,6 @@ void MainInterface::printMain()
 }
 void MainInterface::printLogin()
 {
-	system("mode 100,30");
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	Draw::gotoxy(25, 7);
