@@ -31,6 +31,8 @@ void InfoHandle::addSong()
 	cout << "¸èÃûÆ´ÒôËõÐ´£º";
 	while (1)
 	{
+		Draw::gotoxy(32, 16);
+		cout << "                            ";
 		Draw::gotoxy(36, 12);
 		cout << "           ";
 		Draw::gotoxy(36, 13);
@@ -57,7 +59,7 @@ void InfoHandle::addSong()
 			cout << "                ";
 			Draw::gotoxy(36, 13);
 			cout << "                ";
-			Draw::gotoxy(36, 14);
+			Draw::gotoxy(44, 14);
 			cout << "                ";
 		}
 		else {

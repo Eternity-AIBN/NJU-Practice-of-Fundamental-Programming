@@ -19,7 +19,7 @@ void placeAtTop(int m)   //歌曲置顶
 			unsigned int i = 0;
 			for (; i < 10 && i + m < mySong.size(); ++i) //找到正在播放的歌曲
 				if (mySong[i].status == 0)break;
-			if (n <= i)
+			if (n <= i + 1)
 			{
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
 				Draw::gotoxy(35, 27);
@@ -134,6 +134,9 @@ void removeSong(int m)
 				Sleep(750);
 				Draw::gotoxy(35, 27);
 				cout << "                        ";
+				Draw::gotoxy(28, 26);
+				cout << "                            ";
+				break;
 			}
 			else {
 				unsigned int i = 0;
@@ -192,17 +195,12 @@ void cutTheSong(int m)
 	else {
 		mySong[i + 1].status = 0;
 		nowTheSong = mySong[i + 1].singerName + "-" + mySong[i + 1].songName;
-		cutSongFlag2 = true;
 		cutSongFlag1 = true;
-		/*PlayMusic play;
-		PlayMusic *const this1 = &play;
-		play.th2 = thread(&PlayMusic::printLyrics, this1);
-		play.th2.detach();*/
+		cutSongFlag2 = true;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 		Draw::gotoxy(45, 26);
 		cout << "切歌成功！！！";
-		Sleep(800);
-		cutSongFlag1 = true;
+		Sleep(750);
 		Draw::gotoxy(45, 26);
 		cout << "              ";
 	}

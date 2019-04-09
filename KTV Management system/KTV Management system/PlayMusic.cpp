@@ -34,7 +34,7 @@ void PlayMusic::printLyrics()
 		string str;
 		char s[6];
 		fstream input(nowTheSong + ".lrc");
-		if (input.is_open())   //文件打开失败
+		if (input.is_open())   //文件打开成功
 		{
 			vector<float> time;   //每句歌词时间点
 			int minute;

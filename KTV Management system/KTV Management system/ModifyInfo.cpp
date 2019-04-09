@@ -83,7 +83,7 @@ void InfoHandle::modifyInfo()
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
 					Draw::gotoxy(34, 18);
 					cout << "ÐÞ¸Ä³É¹¦£¡£¡£¡";
-					Sleep(0);
+					Sleep(750);
 					for (int i = 0; i < 7; ++i)
 					{
 						Draw::gotoxy(28, 12 + i);

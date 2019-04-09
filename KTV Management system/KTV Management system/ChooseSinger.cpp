@@ -101,24 +101,35 @@ void InfoHandle::chooseSinger()
 				else if (flag > 2 && flag < 8)
 				{
 					flag = flag - 3;
-					if (mySong.empty())  //歌单中尚无歌曲
+					if ((flag + 5 * (count - 1))>findSong.size() - 1)
 					{
-						PlayMusic play;
-						PlayMusic *const this1 = &play;
-						findSong[flag + 5 * (count - 1)].status = 0;
-						nowTheSong = findSong[flag + 5 * (count - 1)].singerName + "-" + findSong[flag + 5 * (count - 1)].songName;
-						play.th1 = thread(&PlayMusic::playMusic, this1);
-						play.th2 = thread(&PlayMusic::printLyrics, this1);
-						play.th1.detach();
-						play.th2.detach();
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
+						Draw::gotoxy(36, 20);
+						cout << "歌曲不存在！请重新选择...";
+						Sleep(750);
+						Draw::gotoxy(36, 20);
+						cout << "                          ";
 					}
-					mySong.push_back(findSong[flag + 5 * (count - 1)]);
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-					Draw::gotoxy(36, 20);
-					cout << "添加成功！！！";
-					Sleep(750);
-					Draw::gotoxy(36, 20);
-					cout << "                          ";
+					else {
+						if (mySong.empty())  //歌单中尚无歌曲
+						{
+							PlayMusic play;
+							PlayMusic *const this1 = &play;
+							findSong[flag + 5 * (count - 1)].status = 0;
+							nowTheSong = findSong[flag + 5 * (count - 1)].singerName + "-" + findSong[flag + 5 * (count - 1)].songName;
+							play.th1 = thread(&PlayMusic::playMusic, this1);
+							play.th2 = thread(&PlayMusic::printLyrics, this1);
+							play.th1.detach();
+							play.th2.detach();
+						}
+						mySong.push_back(findSong[flag + 5 * (count - 1)]);
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_BLUE);
+						Draw::gotoxy(36, 20);
+						cout << "添加成功！！！";
+						Sleep(750);
+						Draw::gotoxy(36, 20);
+						cout << "                          ";
+					}
 				}
 				else {
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED);
