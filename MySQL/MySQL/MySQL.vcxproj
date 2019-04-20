@@ -161,6 +161,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseStatement.cpp" />
     <ClCompile Include="Run.cpp" />
+    <ClCompile Include="SeleteFrom.cpp" />
     <ClCompile Include="TableList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

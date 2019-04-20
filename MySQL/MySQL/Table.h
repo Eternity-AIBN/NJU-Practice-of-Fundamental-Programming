@@ -5,6 +5,7 @@ using namespace std;
 
 struct Data   //一行数据
 {
+	int id;
 	vector<string> data;
 };
 

@@ -11,8 +11,8 @@ void User::tableList()
 		for (; it != tables.end(); ++it)  //找到相应表格
 			if (it->tableName == tmp)
 				break;
-		cout << '\t' << tmp << ": (" << it->attribute.size() << ',' << it->datas.size() + 1 << ") [";
-		for (unsigned int j = 0; j < it->attribute.size(); ++j)
+		cout << '\t' << tmp << ": (" << it->attribute.size() - 1 << ',' << it->datas.size() << ") [";
+		for (unsigned int j = 1; j < it->attribute.size(); ++j)
 			cout << it->attribute[j] << ", ";
 		cout << "\b\b] ";
 		for (unsigned int j = 0; j < user[n].pofUser[i].perm.size(); ++j)

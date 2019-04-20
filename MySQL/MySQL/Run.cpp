@@ -15,6 +15,7 @@ void User::run()
 		case INSERT:user[n].insertInto(); break;
 		case DELETE:user[n].deleteFrom(); break;
 		case TABLELIST:user[n].tableList(); break;
+		case SELECT:user[n].selectFrom(); break;
 		case GRANT:break;
 		case REVOKE:break;
 		default:

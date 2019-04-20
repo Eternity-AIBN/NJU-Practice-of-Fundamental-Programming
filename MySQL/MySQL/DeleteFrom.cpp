@@ -22,7 +22,7 @@ void User::deleteFrom()
 		string column = ParseStatement::result[4];
 		string value = ParseStatement::result[6];
 
-		unsigned int i = 0;        //column对应第i+1个属性
+		unsigned int i = 1;        //column对应第i+1个属性
 		for (; i < it->attribute.size(); ++i)
 			if (it->attribute[i] == column)break;
 		if (i == it->attribute.size()) {  //属性不存在
@@ -33,7 +33,7 @@ void User::deleteFrom()
 		bool flag = false;
 		auto &pdata = it->datas.begin();   // 从表中删除
 		for (; pdata != it->datas.end(); ++pdata)
-			if (pdata->data[i] == value)
+			if (pdata->data[i - 1] == value)
 			{
 				pdata = it->datas.erase(pdata);
 				flag = true;
@@ -44,22 +44,25 @@ void User::deleteFrom()
 			cout << "The value is not exist!" << endl;
 			return;
 		}
-		else {           //同步相关文件
+		else {  
+			for (; pdata != it->datas.end(); ++pdata)
+				pdata->id--;
+			
+			//同步相关文件
 			string fname = tmp + ".txt";
 			const char *filename = fname.c_str();
 			int n = remove(filename);    
 			ofstream fout(filename);
 
 			if (fout) {          // 创建成功
-				fout << "ID\t";
 				unsigned int j = 0;
 				for (; j < it->attribute.size()-1; ++j)
 					fout << it->attribute[j] << '\t';
 				fout << it->attribute[j] << endl;
 				for (unsigned int i = 0; i < it->datas.size(); ++i)
 				{
-					fout << i + 1 << '\t';   //ID
 					unsigned int k = 0;
+					fout << it->datas[i].id << '\t';
 					for (; k < it->datas[i].data.size() - 1; ++k)
 						fout << it->datas[i].data[k] << '\t';
 					fout << it->datas[i].data[k] << endl;
@@ -83,7 +86,6 @@ void User::deleteFrom()
 		ofstream fout(filename);
 
 		if (fout) {          // 创建成功
-			fout << "ID\t";
 			unsigned int j = 0;
 			for (; j < it->attribute.size() - 1; ++j)
 				fout << it->attribute[j] << '\t';

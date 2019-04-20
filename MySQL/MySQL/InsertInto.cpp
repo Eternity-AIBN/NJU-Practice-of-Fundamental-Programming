@@ -10,7 +10,7 @@ bool judgeFormat(string t, vector<string> c, vector<string> v)
 			break;
 	for (unsigned int i = 0; i < c.size(); ++i)
 	{
-		unsigned int j = 0;
+		unsigned int j = 1;
 		for (; j < it->attribute.size(); ++j)
 			if (c[i] == it->attribute[j])break;
 		if (j == it->attribute.size())return false; //表格中没有该属性
@@ -35,13 +35,14 @@ void User::insertInto()
 		int num = it->attribute.size();
 		int numOfLine = it->datas.size() + 1;
 
-		if (ParseStatement::result.size() - 4 != num)  //插入属性个数与表格列数不同
+		if (ParseStatement::result.size() - 3 != num)  //插入属性个数与表格列数不同
 		{
 			cout << "Format Error!" << endl;
 			return;
 		}
 
 		Data d;          //在表格中插入该行数据
+		d.id = numOfLine;
 		for (unsigned int i = 0; i < ParseStatement::result.size() - 4; ++i)
 			d.data.push_back(ParseStatement::result[i + 4]);
 		it->datas.push_back(d); 
@@ -69,8 +70,9 @@ void User::insertInto()
 			values.push_back(ParseStatement::result[i]);
 
 		Data d;          //在表格中插入该行数据
+		d.id = numOfLine;
 		int h = 0;
-		unsigned int j = 0;
+		unsigned int j = 1;
 		for (; j < it->attribute.size(); ++j)
 		{
 			if (it->attribute[j] == column[h])
@@ -103,7 +105,7 @@ void User::insertInto()
 		fout << numOfLine << '\t';  //输入ID
 
 		int k = 0; //要插入的第k+1个属性
-		unsigned int g = 0;
+		unsigned int g = 1;
 		for (; g < it->attribute.size() - 1; ++g)
 		{
 			if (column[k] == it->attribute[g])

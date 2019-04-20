@@ -38,8 +38,6 @@ bool User::createTable()
 		poau.perm.push_back("SELECT");
 		user[n].pofUser.push_back(poau);
 
-		string id;
-		fin >> id;
 		string theAttribute, dt;
 		while ((c = fin.get()) != '\n')
 		{
@@ -49,7 +47,7 @@ bool User::createTable()
 		while (fin.peek()!=EOF)
 		{
 			Data LineOfData;
-			fin >> id;
+			fin >> LineOfData.id;
 			while ((c = fin.get()) != '\n')
 			{
 				fin >> dt;
@@ -66,6 +64,8 @@ bool User::createTable()
 		string theAttribute;
 		tmp.tableName = tmpName;
 		unsigned int i = 0;
+		theAttribute = "ID";
+		tmp.attribute.push_back(theAttribute);
 		for (; i < ParseStatement::result.size() - 5; ++i)
 		{
 			theAttribute = ParseStatement::result[i + 3];
@@ -74,7 +74,6 @@ bool User::createTable()
 		tables.push_back(tmp);
 		ofstream fout(ParseStatement::result[i + 4]);
 		if (fout) {          // 创建成功
-			fout << "ID\t";
 			unsigned int j = 0;
 			for (; j < tmp.attribute.size() - 1; ++j)
 				fout << tmp.attribute[j] << '\t';
