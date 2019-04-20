@@ -1,8 +1,6 @@
 #include"User.h"
 #include<conio.h>
 
-extern User user[8];
-
 int User::login()
 {
 	string name, password;

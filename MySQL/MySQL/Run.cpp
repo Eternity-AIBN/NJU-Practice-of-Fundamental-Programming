@@ -1,23 +1,27 @@
 #include"User.h"
 
-extern User user[8];
-extern vector<Table> tables;
-
-void User::run(int n)
+void User::run()
 {
 	string s;
+	cout << "(mysql)==>";
 	getline(cin, s);
-	int choice = ParseStatement::parse(s);
-	switch (choice)
+	while (s != "quit")
 	{
-	case CREATE:user[n].createTable(); break;
-	case DROP:break;
-	case INSERT:break;
-	case DELETE:break;
-	case TABLELIST:break;
-	case GRANT:break;
-	case REVOKE:break;
-	default:
-		break;
+		int choice = ParseStatement::parse(s);
+		switch (choice)
+		{
+		case CREATE:user[n].createTable(); break;
+		case DROP:user[n].dropTable(); break;
+		case INSERT:break;
+		case DELETE:break;
+		case TABLELIST:user[n].tableList(); break;
+		case GRANT:break;
+		case REVOKE:break;
+		default:
+			break;
+		}
+		cout << tables.size() << endl;
+		cout << "(mysql)==>";
+		getline(cin, s);
 	}
 }

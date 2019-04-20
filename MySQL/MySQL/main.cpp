@@ -7,6 +7,8 @@ using namespace std;
 
 User user[8];
 vector<Table> tables;  //所有表格
+int User::n;
+vector<Permission> allThePermission;  //所有表格的权限
 
 void init()
 {
@@ -22,8 +24,10 @@ void init()
 	info[3].password = "user444";
 
 	for (int i = 0; i < 4; ++i)
+	{
 		for (int j = 0; j < 4; ++j)
-			info[i].permission[j] = 0;
+			info[i].permission[j] = false;
+	}
 
 	user[0] = info[0];
 	user[1] = info[1];
@@ -35,28 +39,27 @@ int main()
 {
 	init();
 	string s, s1;
-	/*cout << "~$ ";
+	cout << "~$ ";
 	cin >> s1;
 	if (s1 != "mySQL")
-		return 0;*/
+		return 0;
 
-	/*int n = User::login();
+	int n = User::login();
 	if (n == -1)
 		cout << "Login unsuccessfully" << endl;
 	else {
 		cout << "Login successfully" << endl;
-		cout << "(mysql)==>";
-		user[n].run(n);
-	}*/
+		User::n = n;
+		user[n].run();
+	}
 
-	user[0].run(0);
-	cout << tables[0].tableName << endl;
+	/*user[0].run();
 	for (int i = 0; i < 3; ++i)
 		cout << tables[0].attribute[i] << " ";
 	for (int i = 0; i < 2; ++i)
 		for (int j = 0; j < 3; ++j)
 			cout << tables[0].datas[i].data[j] << " ";
-	cout << endl;
+	cout << endl;*/
 
 	/*while (1)
 	{

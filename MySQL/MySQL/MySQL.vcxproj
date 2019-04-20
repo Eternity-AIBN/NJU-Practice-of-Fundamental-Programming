@@ -155,10 +155,12 @@
   <ItemGroup>
     <ClCompile Include="Cat.cpp" />
     <ClCompile Include="CreateTable.cpp" />
+    <ClCompile Include="Drop.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseStatement.cpp" />
     <ClCompile Include="Run.cpp" />
+    <ClCompile Include="TableList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

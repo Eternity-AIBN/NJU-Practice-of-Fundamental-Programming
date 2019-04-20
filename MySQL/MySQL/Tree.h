@@ -14,7 +14,7 @@ public:
 	Tree() {
 		father = new TNode;
 	}
-	~Tree();
+	~Tree() {}
 	/*void insert_at_root(int x);
 	void insert_after(int x, int y);
 	void delete_node(int x);

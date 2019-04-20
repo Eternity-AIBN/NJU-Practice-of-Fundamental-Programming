@@ -1,17 +1,15 @@
 #include"User.h"
 
-extern vector<Table> tables;
-
 bool User::createTable()
 {
-	if (ParseStatement::result.size() < 5)   //Invalid instruction
+	if (ParseStatement::result.size() < 5)   //指令无效
 	{
 		cout << "Invalid instruction!" << endl;
 		return false;
 	}
-	string tmpName = ParseStatement::result[2];  //The name of the table
+	string tmpName = ParseStatement::result[2];  //表的名字
 	for (unsigned int i = 0; i < tables.size(); ++i)
-		if (tmpName == tables[i].tableName)      //The table has exist
+		if (tmpName == tables[i].tableName)      //表格已经存在
 		{
 			cout << "The table has already exist!" << endl;
 			return false;
@@ -20,7 +18,7 @@ bool User::createTable()
 	{
 		const char *filename = ParseStatement::result[4].c_str();
 		ifstream fin(filename);
-		if (!fin.is_open())   //The file is not exist
+		if (!fin.is_open())   //文件不存在
 		{
 			cout << "The file is not exist!" << endl;
 			return false;
@@ -28,6 +26,18 @@ bool User::createTable()
 		char c;
 		Table tmp;
 		tmp.tableName = tmpName;
+
+		for (int i = 0; i < 4; ++i)          //owner拥有所有权限
+			user[n].getInfo().permission[i] = true;
+		permissionOfAUser poau;
+		poau.tableName = tmpName;
+		poau.isOwner = true;    //表格创建者是owner
+		poau.perm.push_back("DROP");
+		poau.perm.push_back("INSERT");
+		poau.perm.push_back("DELETE");
+		poau.perm.push_back("SELECT");
+		user[n].pofUser.push_back(poau);
+
 		string id;
 		fin >> id;
 		string theAttribute, dt;
@@ -62,7 +72,6 @@ bool User::createTable()
 			tmp.attribute.push_back(theAttribute);
 		}
 		tables.push_back(tmp);
-		cout << ParseStatement::result[i + 4] << endl;
 		ofstream fout(ParseStatement::result[i + 4]);
 		if (fout) {          // 创建成功
 			fout << "ID\t";
@@ -71,6 +80,19 @@ bool User::createTable()
 				fout << tmp.attribute[j] << '\t';
 			fout << tmp.attribute[j] << endl;
 			fout.close();
+
+			for (int i = 0; i < 4; ++i)          //owner拥有所有权限
+				user[n].getInfo().permission[i] = true;
+			permissionOfAUser poau;
+			poau.tableName = tmpName;
+			poau.isOwner = true;    //表格创建者是owner
+			poau.perm.push_back("DROP");
+			poau.perm.push_back("INSERT");
+			poau.perm.push_back("DELETE");
+			poau.perm.push_back("SELECT");
+			user[n].pofUser.push_back(poau);
+
+			cout << " asdfg" << endl;
 			return true;
 		}
 		return false;
