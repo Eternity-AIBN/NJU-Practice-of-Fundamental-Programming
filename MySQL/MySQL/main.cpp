@@ -35,11 +35,27 @@ void init()
 	user[3] = info[3];
 }
 
+void cat(string filename)
+{
+	fstream fin(filename);
+	if (!fin.is_open())
+	{
+		cout << "Open File Error!" << endl;
+		return;
+	}
+	string tmp;
+	while (!fin.eof())
+	{
+		getline(fin, tmp);
+		cout << tmp << endl;
+	}
+}
+
 int main()
 {
 	init();
 	string s, s1;
-	cout << "~$ ";
+	/*cout << "~$ ";
 	cin >> s1;
 	if (s1 != "mySQL")
 		return 0;
@@ -51,7 +67,17 @@ int main()
 		cout << "Login successfully" << endl;
 		User::n = n;
 		user[n].run();
+	}*/
+	while (1)
+	{
+		user[0].run();
+		cout << "~$ cat ";
+		string fil;
+		cin >> fil;
+		cat(fil);
+		cin.get();
 	}
+	
 
 	/*user[0].run();
 	for (int i = 0; i < 3; ++i)

@@ -12,15 +12,14 @@ void User::run()
 		{
 		case CREATE:user[n].createTable(); break;
 		case DROP:user[n].dropTable(); break;
-		case INSERT:break;
-		case DELETE:break;
+		case INSERT:user[n].insertInto(); break;
+		case DELETE:user[n].deleteFrom(); break;
 		case TABLELIST:user[n].tableList(); break;
 		case GRANT:break;
 		case REVOKE:break;
 		default:
 			break;
 		}
-		cout << tables.size() << endl;
 		cout << "(mysql)==>";
 		getline(cin, s);
 	}

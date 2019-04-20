@@ -92,7 +92,6 @@ bool User::createTable()
 			poau.perm.push_back("SELECT");
 			user[n].pofUser.push_back(poau);
 
-			cout << " asdfg" << endl;
 			return true;
 		}
 		return false;

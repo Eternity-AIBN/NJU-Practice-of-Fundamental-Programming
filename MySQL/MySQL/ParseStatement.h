@@ -13,7 +13,6 @@ using namespace std;
 #define GRANT 5        //授予权限
 #define REVOKE 6       //收回授权
 #define TABLELIST 7    //打印当前用户所能访问的表和权限
-#define cat 8          //查看文件
 
 class ParseStatement
 {

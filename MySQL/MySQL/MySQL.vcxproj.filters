@@ -47,13 +47,16 @@
     <ClCompile Include="CreateTable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Cat.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Drop.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TableList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertInto.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteFrom.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

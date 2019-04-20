@@ -25,8 +25,6 @@ int ParseStatement::parse(string str)
 	preProcess(str);
 	if (result.size() < 2)
 		return -1;
-	if (result[0] == "cat")
-		return cat;
 	if (result[0] == "CREATE"&&result[1] == "TABLE")
 		return CREATE;
 	if (result[0] == "DROP"&&result[1] == "TABLE")

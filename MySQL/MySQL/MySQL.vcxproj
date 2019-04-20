@@ -153,9 +153,10 @@
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cat.cpp" />
     <ClCompile Include="CreateTable.cpp" />
+    <ClCompile Include="DeleteFrom.cpp" />
     <ClCompile Include="Drop.cpp" />
+    <ClCompile Include="InsertInto.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseStatement.cpp" />
