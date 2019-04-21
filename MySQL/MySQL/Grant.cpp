@@ -101,8 +101,8 @@ void User::grant()
 			else {
 				for (unsigned int k = 0; k < perList.size(); ++k)
 				{
-					vector<string>::iterator itt = find(user[nn].pofUser[h].perm.begin(), user[nn].pofUser[h].perm.end(), perList[k]);
-					if (itt == user[nn].pofUser[h].perm.end())  //未拥有该权限
+					/*vector<string>::iterator itt = find(user[nn].pofUser[h].perm.begin(), user[nn].pofUser[h].perm.end(), perList[k]);
+					if (itt == user[nn].pofUser[h].perm.end())  //未拥有该权限*/
 						user[nn].pofUser[h].perm.push_back(perList[k]);
 				}
 			}

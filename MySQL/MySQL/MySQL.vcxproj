@@ -162,6 +162,7 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseStatement.cpp" />
+    <ClCompile Include="Revoke.cpp" />
     <ClCompile Include="Run.cpp" />
     <ClCompile Include="SeleteFrom.cpp" />
     <ClCompile Include="TableList.cpp" />

@@ -71,5 +71,8 @@
     <ClCompile Include="Judge.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Revoke.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

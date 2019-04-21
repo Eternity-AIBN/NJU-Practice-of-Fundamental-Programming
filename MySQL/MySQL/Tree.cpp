@@ -33,10 +33,9 @@ void Tree::deleteMemory(TNode *&node)
 {
 	if (node == NULL || node->children.size() == 0)  
 		return;
-	TNode *tmp = node;
-	delete node;
-	for (vector<TNode*>::iterator it = tmp->children.begin(); it != tmp->children.end(); it++)
+	for (vector<TNode*>::iterator it = node->children.begin(); it != node->children.end(); it++)
 		deleteMemory(*it);
+	delete node;
 }
 
 void Tree::insertAfter(string locate, string des)
@@ -44,14 +43,14 @@ void Tree::insertAfter(string locate, string des)
 	myInsert(father, locate, des);
 }
 
-bool Tree::deleteNode(string withdraw, string beWithdraw)
+void Tree::deleteNode(string withdraw, string beWithdraw)
 {
 	TNode *tn1 = bfs(father, withdraw); //找到收回权限者
 	if(tn1==NULL)   //收回权限者或被收回权限者不存在
-		return false;
+		return;
 	TNode *tn2 = bfs(tn1, beWithdraw); //找到被收回权限者
 	if (tn2 == NULL)  //被收回权限者不存在
-		return false;
+		return;
 	TNode *tmp = tn2;
 	for (unsigned int i = 0; i < tn1->children.size();++i)
 		if (tn1->children[i] == tn2)
@@ -60,5 +59,4 @@ bool Tree::deleteNode(string withdraw, string beWithdraw)
 			break;
 		}
 	deleteMemory(tmp);  //释放被收回者空间
-	return true;
 }

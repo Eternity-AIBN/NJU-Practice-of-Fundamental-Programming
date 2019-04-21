@@ -17,7 +17,7 @@ void User::run()
 		case TABLELIST:user[n].tableList(); break;
 		case SELECT:user[n].selectFrom(); break;
 		case GRANT:user[n].grant(); break;
-		case REVOKE:break;
+		case REVOKE:user[n].revoke(); break;
 		default:
 			break;
 		}
