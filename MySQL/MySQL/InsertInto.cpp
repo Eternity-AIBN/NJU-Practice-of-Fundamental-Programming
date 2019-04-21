@@ -26,6 +26,13 @@ void User::insertInto()
 		return;
 	}
 	string tmp = ParseStatement::result[2];
+
+	if (!judge(tmp, "INSERT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto &it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmp)    //找到相应表格

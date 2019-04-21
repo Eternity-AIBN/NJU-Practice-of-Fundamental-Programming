@@ -156,13 +156,16 @@
     <ClCompile Include="CreateTable.cpp" />
     <ClCompile Include="DeleteFrom.cpp" />
     <ClCompile Include="Drop.cpp" />
+    <ClCompile Include="Grant.cpp" />
     <ClCompile Include="InsertInto.cpp" />
+    <ClCompile Include="Judge.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseStatement.cpp" />
     <ClCompile Include="Run.cpp" />
     <ClCompile Include="SeleteFrom.cpp" />
     <ClCompile Include="TableList.cpp" />
+    <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

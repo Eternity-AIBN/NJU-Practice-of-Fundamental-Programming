@@ -14,7 +14,7 @@ struct Permission         //与某个表格相关的所有用户权限
 {
 	string tableName;   //表格名
 	string owner;       //表的所有者
-	vector<singlePermission> permissionList;   //权限列表
+	singlePermission permissionList[4];   //权限列表
 };
 
 struct permissionOfAUser

@@ -10,6 +10,13 @@ void User::deleteFrom()
 	if (ParseStatement::result[1] == "FROM"&&ParseStatement::result[3]=="WHERE") //删除某一行
 	{
 		string tmp = ParseStatement::result[2];  //表名
+
+		if (!judge(tmp, "DELETE"))
+		{
+			cout << "(mysql)==> Permission denied!" << endl;
+			return;
+		}
+
 		auto it = tables.begin();
 		for (; it != tables.end(); ++it)
 			if (it->tableName == tmp)    //找到相应表格
@@ -73,6 +80,13 @@ void User::deleteFrom()
 	}
 	else {
 		string tmp = ParseStatement::result[3];  //表名
+
+		if (!judge(tmp, "DELETE"))
+		{
+			cout << "(mysql)==> Permission denied!" << endl;
+			return;
+		}
+
 		auto it = tables.begin();
 		for (; it != tables.end(); ++it)
 			if (it->tableName == tmp)    //找到相应表格

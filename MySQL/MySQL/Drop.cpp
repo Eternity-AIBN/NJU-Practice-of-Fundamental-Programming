@@ -10,6 +10,12 @@ void User::dropTable()
 	}
 	string tmp = ParseStatement::result[2];  //表的名字
 
+	if (!judge(tmp, "DROP"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	for (auto &it = user[n].pofUser.begin(); it != user[n].pofUser.end(); ++it)
 		if (it->tableName == tmp)        //从用户的权限列表中删除该表格
 		{

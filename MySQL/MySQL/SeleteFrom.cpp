@@ -55,6 +55,13 @@ void select1(vector<string> &tmp, Table &tmpTable)
 {
 	int n = tmp.size();
 	string tmpp = tmp[n - 1];
+
+	if (!User::judge(tmpp, "SELECT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmpp)    //找到相应表格
@@ -91,6 +98,13 @@ void select1(vector<string> &tmp, Table &tmpTable)
 void select2(vector<string> &tmp, Table &tmpTable)
 {
 	string tmpp = tmp[3];
+
+	if (!User::judge(tmpp, "SELECT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmpp)    //找到相应表格
@@ -120,6 +134,13 @@ void select3(vector<string> &tmp, Table &tmpTable)
 {
 	int n = tmp.size();
 	string tmpp = tmp[n - 1];
+
+	if (!User::judge(tmpp, "SELECT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmpp)    //找到相应表格
@@ -154,6 +175,13 @@ void select4(vector<string> &tmp, Table &tmpTable)
 {
 	int n = tmp.size();
 	string tmpp = tmp[3];
+
+	if (!User::judge(tmpp, "SELECT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmpp)    //找到相应表格
@@ -201,6 +229,13 @@ void select5(vector<string> &tmp, Table &tmpTable)
 {
 	int n = tmp.size();
 	string tmpp = tmp[n - 5];
+
+	if (!User::judge(tmpp, "SELECT"))
+	{
+		cout << "(mysql)==> Permission denied!" << endl;
+		return;
+	}
+
 	auto it = tables.begin();
 	for (; it != tables.end(); ++it)
 		if (it->tableName == tmpp)    //找到相应表格
@@ -288,6 +323,8 @@ void select6(Table &tmpTable)
 	default:
 		break;
 	}
+	if (tmpTable.attribute.size() == 0)
+		return;
 	string fname = ParseStatement::result.back();
 	const char *filename = fname.c_str();
 	ofstream fout(filename);

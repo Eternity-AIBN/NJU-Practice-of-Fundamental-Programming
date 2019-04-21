@@ -34,8 +34,11 @@ public:
 	void revoke();          //收回授权
 
 	static void run();    
+	void recordPermission(string);  //记录创建表格时的权限
+	static bool judge(string tName, string per);   //判断是否有某个权限
 
 };
 
 extern User user[8];
 extern vector<Table> tables;
+extern vector<Permission> allThePermission;

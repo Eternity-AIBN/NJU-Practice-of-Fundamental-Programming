@@ -1,5 +1,31 @@
 #include"User.h"
 
+void User::recordPermission(string tmpName)
+{
+	for (int i = 0; i < 4; ++i)          //owner拥有所有权限
+		user[n].getInfo().permission[i] = true;
+	permissionOfAUser poau;
+	poau.tableName = tmpName;
+	poau.isOwner = true;    //表格创建者是owner
+	poau.perm.push_back("DROP");
+	poau.perm.push_back("INSERT");
+	poau.perm.push_back("DELETE");
+	poau.perm.push_back("SELECT");
+	user[n].pofUser.push_back(poau);
+
+	Permission tmp;
+	tmp.tableName = tmpName;
+	tmp.owner = user[n].getInfo().userName;
+	tmp.permissionList[0].permissionName = "DROP";
+	tmp.permissionList[1].permissionName = "INSERT";
+	tmp.permissionList[2].permissionName = "DELETE";
+	tmp.permissionList[3].permissionName = "SELECT";
+	for (int i = 0; i < 4; ++i)
+		tmp.permissionList[i].permissionTree.setUser(tmp.owner);
+
+	allThePermission.push_back(tmp);
+}
+
 bool User::createTable()
 {
 	if (ParseStatement::result.size() < 5)   //指令无效
@@ -27,18 +53,10 @@ bool User::createTable()
 		Table tmp;
 		tmp.tableName = tmpName;
 
-		for (int i = 0; i < 4; ++i)          //owner拥有所有权限
-			user[n].getInfo().permission[i] = true;
-		permissionOfAUser poau;
-		poau.tableName = tmpName;
-		poau.isOwner = true;    //表格创建者是owner
-		poau.perm.push_back("DROP");
-		poau.perm.push_back("INSERT");
-		poau.perm.push_back("DELETE");
-		poau.perm.push_back("SELECT");
-		user[n].pofUser.push_back(poau);
+		recordPermission(tmpName);
 
 		string theAttribute, dt;
+		fin >> theAttribute;
 		while ((c = fin.get()) != '\n')
 		{
 			fin >> theAttribute;
@@ -80,16 +98,7 @@ bool User::createTable()
 			fout << tmp.attribute[j] << endl;
 			fout.close();
 
-			for (int i = 0; i < 4; ++i)          //owner拥有所有权限
-				user[n].getInfo().permission[i] = true;
-			permissionOfAUser poau;
-			poau.tableName = tmpName;
-			poau.isOwner = true;    //表格创建者是owner
-			poau.perm.push_back("DROP");
-			poau.perm.push_back("INSERT");
-			poau.perm.push_back("DELETE");
-			poau.perm.push_back("SELECT");
-			user[n].pofUser.push_back(poau);
+			recordPermission(tmpName);
 
 			return true;
 		}
