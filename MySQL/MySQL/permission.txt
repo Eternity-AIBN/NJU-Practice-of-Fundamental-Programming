@@ -1,0 +1,6 @@
+Student
+DROP
+INSERT
+DELETE
+SELECT
+

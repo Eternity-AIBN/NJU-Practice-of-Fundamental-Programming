@@ -37,9 +37,21 @@ void User::revoke()
 	if (perList.size() == 0)
 		return;
 
-	for (unsigned int j = 0; j < userList.size(); ++j)  //更新pofUser
+	vector<string> allUserList;
+
+	for (unsigned int j = 0; j < perList.size(); ++j)
 	{
-		int nn = judgeWho(userList[j]);
+		int nn = judgePer(perList[j]);
+		for (unsigned int h = 0; h < userList.size(); ++h)
+		{
+			TNode *tmpp = allThePermission[aa].permissionList[nn].permissionTree.bfs2(allThePermission[aa].permissionList[nn].permissionTree.father, userList[h]);
+			Tree::treeRevoke(tmpp, allUserList);
+		}
+	}
+	cout << allUserList.size() << endl;
+	for (unsigned int j = 0; j < allUserList.size(); ++j)  //更新pofUser
+	{
+		int nn = judgeWho(allUserList[j]);
 		if (nn == -1)continue; //没有该用户
 
 		if (user[nn].pofUser.size() == 0)
@@ -59,6 +71,7 @@ void User::revoke()
 						break;
 					}
 	}
+
 
 	for (unsigned int j = 0; j < perList.size(); ++j)  //更新allThePermission
 	{

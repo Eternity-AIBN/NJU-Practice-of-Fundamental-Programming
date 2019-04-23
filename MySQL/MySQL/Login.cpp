@@ -23,5 +23,13 @@ int User::login()
 		return 2;
 	if (name == "user4"&&password == user[3].getInfo().password)
 		return 3;
+	if (name == "user5"&&password == user[4].getInfo().password)
+		return 4;
+	if (name == "user6"&&password == user[5].getInfo().password)
+		return 5;
+	if (name == "user7"&&password == user[6].getInfo().password)
+		return 6;
+	if (name == "user8"&&password == user[7].getInfo().password)
+		return 7;
 	return -1;
 }

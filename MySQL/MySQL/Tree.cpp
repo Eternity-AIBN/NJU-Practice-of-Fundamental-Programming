@@ -1,8 +1,20 @@
 #include"Tree.h"
+#include<iostream>
+using namespace std;
 
 void Tree::setUser(string name)
 {
 	father->user = name;
+}
+
+void Tree::treeRevoke(TNode *firstUser,vector<string> &list)
+{
+	if (firstUser == NULL)
+		return;
+	list.push_back(firstUser->user);
+	if (firstUser->children.size() == 0)return;
+	for (vector<TNode*>::iterator it = firstUser->children.begin(); it != firstUser->children.end(); it++)
+		treeRevoke(*it,list);   //递归查找
 }
 
 void myInsert(TNode *node, string locate, string des)  //增加被授权人
@@ -19,10 +31,20 @@ void myInsert(TNode *node, string locate, string des)  //增加被授权人
 	return;
 }
 
+TNode *Tree::bfs2(TNode *node, string des)
+{
+	if (node == NULL)   //目标节点不存在
+		return NULL;
+	if (node->user == des)   //找到目标节点
+		return node;
+	for (unsigned int i = 0; i < node->children.size(); ++i)
+		return bfs2(node->children[i], des);
+}
+
 TNode *Tree::bfs(TNode *node, string des) 
 {
 	if (node == NULL || node->children.size() == 0)   //目标节点不存在
-		return NULL;
+		return node;
 	if (node->user == des)   //找到目标节点
 		return node;
 	for (vector<TNode*>::iterator it = node->children.begin(); it != node->children.end(); it++)
@@ -52,10 +74,10 @@ void Tree::deleteNode(string withdraw, string beWithdraw)
 	if (tn2 == NULL)  //被收回权限者不存在
 		return;
 	TNode *tmp = tn2;
-	for (unsigned int i = 0; i < tn1->children.size();++i)
-		if (tn1->children[i] == tn2)
+	for (vector<TNode*>::iterator it = tn1->children.begin(); it != tn1->children.end();++it)
+		if (*it == tn2)
 		{
-			tn1->children[i] = NULL;  //收回权限
+			tn1->children.erase(it);
 			break;
 		}
 	deleteMemory(tmp);  //释放被收回者空间

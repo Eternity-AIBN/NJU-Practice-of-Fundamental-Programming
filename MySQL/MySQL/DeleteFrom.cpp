@@ -38,7 +38,7 @@ void User::deleteFrom()
 		}
 		
 		bool flag = false;
-		auto &pdata = it->datas.begin();   // 从表中删除
+		auto pdata = it->datas.begin();   // 从表中删除
 		for (; pdata != it->datas.end(); ++pdata)
 			if (pdata->data[i - 1] == value)
 			{

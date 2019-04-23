@@ -56,26 +56,42 @@ bool User::createTable()
 		recordPermission(tmpName);
 
 		string theAttribute, dt;
-		fin >> theAttribute;
-		while ((c = fin.get()) != '\n')
+		getline(fin, theAttribute);
+		string temp;
+		for (unsigned int k = 0; k< theAttribute.size(); ++k)
 		{
-			fin >> theAttribute;
-			tmp.attribute.push_back(theAttribute);
+			if (theAttribute[k] == '\t')
+			{
+				tmp.attribute.push_back(temp);
+				temp.clear();
+			}
+			else temp += theAttribute[k];
 		}
-		while (fin.peek()!=EOF)
+		tmp.attribute.push_back(temp);
+		while (!fin.eof())
 		{
+			string t;
 			Data LineOfData;
 			fin >> LineOfData.id;
-			while ((c = fin.get()) != '\n')
+			fin >> c;
+			getline(fin, t);
+			string temp;
+			for (unsigned int k = 0; k< t.size(); ++k)
 			{
-				fin >> dt;
-				LineOfData.data.push_back(dt);
+				if (t[k] == '\t')
+				{
+					LineOfData.data.push_back(temp);
+					temp.clear();
+				}
+				else temp += t[k];
 			}
+			LineOfData.data.push_back(temp);
 			tmp.datas.push_back(LineOfData);
 		}
 		tables.push_back(tmp);
 		fin.close();
 		return true;
+
 	}
 	else {
 		Table tmp;
