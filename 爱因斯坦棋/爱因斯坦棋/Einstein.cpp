@@ -7,6 +7,7 @@
 #include<cstdlib>
 #include<ctime>
 #include<sstream>
+#include<fstream>
 using namespace std;
 
 int cnt = 0; //局数，3局结束
@@ -184,14 +185,17 @@ int Einstein::handle()
 	clientsocket.recvMsg();
 
 	if (parse(clientsocket.getRecvMsg()) == -1)  //解析信息，更新棋盘
+	{
+		logging("Result: RedWin");
 		return 0;
+	}
 
 	//刚开局第一步不需要检查，此时checkOrNot为false
 	if (checkOrNot)   //检查对方是否获胜导致重新开局
 		if (check(chessboard, 25)) //确实重新开局,我方输掉一局
 		{
 			cnt++;
-			cout << "第" << cnt << "局结束，对方获胜" << endl;
+			logging("Result: RedWin");
 		}
 
 	//策略函数
@@ -204,7 +208,7 @@ int Einstein::handle()
 	if (isWin(chessboard, 25) != 0) {
 		cnt++;  //我方赢得一局
 		checkOrNot = false;  //我方获胜会记录下来，故新开局无需检查
-		cout << "第" << cnt << "局结束，你获胜" << endl;
+		logging("Result: BlueWin");
 	}
 	else checkOrNot = true;  //从第二步棋开始检查
 	if (cnt == 3)return 0;
@@ -217,26 +221,83 @@ int Einstein::handle()
 
 int Einstein::logging(std::string s)
 {
-	string tmp = " ：";
-	string p = clientsocket.getRecvMsg();
-	for (auto it = p.begin(); *it != '|'; ++it)
-		tmp.push_back(*it);
-
-
 	char c[64];
 	time_t timep;
 	time(&timep);
 	strftime(c, sizeof(c), "%Y-%m-%d %H-%M-%S", localtime(&timep));
 
-	tmp += " ||chess&move：" + s;
-	tmp = c + tmp;
+	if (s[0] == 'd')
+	{
+		s = ": " + s;
+		s = c + s + '\n';
+		cout << s;
+		logger.push_back(s);
+		return 0;
+	}
 
-	cout << tmp << endl;
+	if (s[0] == 'R')
+	{
+		list<string>::iterator it = logger.end();
+		for (it--; it != logger.begin() && (*it)[21] != 'R'; --it);
+		if (it != logger.begin())
+			++it;
+
+		int day1, hour1, minute1, second1;
+		stringstream ss[8];
+		ss[0] << (*it)[8] << (*it)[9];
+		ss[0] >> day1;
+		ss[1] << (*it)[11] << (*it)[12];
+		ss[1] >> hour1;
+		ss[2] << (*it)[14] << (*it)[15];
+		ss[2] >> minute1;
+		ss[3] << (*it)[17] << (*it)[18];
+		ss[3] >> second1;
+
+		int day2, hour2, minute2, second2;
+		ss[4] << c[8] << c[9];
+		ss[4] >> day2;
+		ss[5] << c[11] << c[12];
+		ss[5] >> hour2;
+		ss[6] << c[14] << c[15];
+		ss[6] >> minute2;
+		ss[7] << c[17] << c[18];
+		ss[7] >> second2;
+
+		int costTime = (day2 - day1) * 86400 + (hour2 - hour1) * 3600 + (minute2 - minute1) * 60 + second2 - second1;
+		stringstream sss;
+		sss << costTime;
+		string a;
+		sss >> a;
+
+		s = ": " + s;
+		s = c + s + "   Use time: " + a + " seconds\n";
+
+		cout << s;
+		logger.push_back(s);
+		return 0;
+	}
+
+	string tmp = ": ";
+	string p = clientsocket.getRecvMsg();
+	for (auto it = p.begin(); *it != '|'; ++it)
+		tmp.push_back(*it);
+
+	tmp += " ||chess&move: " + s;
+	tmp = c + tmp + '\n';
+
+	cout << tmp;
 	logger.push_back(tmp);
 	return 0;
 }
 
 int Einstein::writelog()
 {
+	auto it = logger.begin();
+	filename.assign(*it, 0, 10);
+	filename += "-181860044.log";
+	ofstream fout(filename);
+	for (; it != logger.end(); ++it)
+		fout << *it;
+	fout.close();
 	return 0;
 }
