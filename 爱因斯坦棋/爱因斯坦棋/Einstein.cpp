@@ -14,12 +14,14 @@ using namespace std;
 #define red 0
 
 typedef pair<int, int> moveWay;  //走子方向，从第一个坐标走到第二个坐标
-int cnt = 0; //局数，3局结束
 bool checkOrNot = false; //是否检查棋局发生很大变化
 int toCheck[25];  //记录上一步下完的棋盘，用于对比检查是否新开局
 bool mycolor;//记录我方颜色，0为红，1为蓝
 int moveIndex;
 string moveDir;
+bool IamWin = false;
+char startTime[64];
+bool recordTime = true;
 
 inline void updateBoard(int chessboard[], int n) //更新棋局
 {
@@ -189,6 +191,7 @@ struct Node
     //根据该节点棋盘信息更新allMove（用于expand）
 	void handle()  
 	{
+		allMove.clear();
 		moveWay tmp;
 		vector<int> position; //该节点对应color方在当前棋盘上所有棋子的位置
 		if (color == blue)
@@ -283,7 +286,7 @@ struct Node
 					else if (curBoard[i]>6) //找到小于色子点数的与其最接近的棋子所在位置
 					{
 						tmpdis2 = dice - curBoard[i];
-						if (tmpdis2 < mindis1)
+						if (tmpdis2 < mindis2)
 						{
 							mindis2 = tmpdis2;
 							index[1] = i;
@@ -306,7 +309,7 @@ struct Node
 					else if (curBoard[i]>0 && curBoard[i] < dice) //找到小于色子点数的与其最接近的棋子所在位置
 					{
 						tmpdis2 = dice - curBoard[i];
-						if (tmpdis2 < mindis1)
+						if (tmpdis2 < mindis2)
 						{
 							mindis2 = tmpdis2;
 							index[1] = i;
@@ -409,8 +412,14 @@ string Tree::UCTSearch(int a[], int n, int dice)
 		//coo++;
 		now = clock();
 	}
-	//修改为访问量最大的！！！
-	Node *best = bestChild(root);
+	Node *best = NULL;
+	double aaaa = -RAND_MAX;
+	for(auto it:root->child)
+		if ((double)(it->win/it->total) > aaaa)
+		{
+			aaaa = 1.0*(it->win/it->total);
+			best = it;
+		}
 
 	int p[2];  //最佳走子的棋子位置
 	for (int i = 0, diff = 0; diff < 2; ++i)
@@ -594,7 +603,8 @@ Node *Tree::bestChild(Node *p, double c)
 	Node *best = NULL;
 	for (auto it : p->child)
 	{
-		ucb = 1.0*it->win / it->total + sqrt(c*log(p->total) / it->total);
+		//ucb = 1.0*it->win / it->total + c*sqrt(log(p->total) / it->total);
+		ucb = 1.0*it->win / it->total + 1.38*sqrt(2 * log(p->total) / it->total);
 		if (ucb > argmax) {
 			argmax = ucb;
 			best = it;
@@ -654,18 +664,20 @@ int Einstein::handle()
 
 	if (parse(clientsocket.getRecvMsg()) == -1)  //解析信息，更新棋盘
 	{
-		logging("Result: RedWin");
+		if (!IamWin)
+			logging("Result: OpponentWin");
 		return 0;
 	}
 	uct.color = mycolor;
+	IamWin = false;
 
 	//刚开局第一步不需要检查，此时checkOrNot为false
 	if (checkOrNot)   //检查对方是否获胜导致重新开局
 		if (check(chessboard, 25)) //确实重新开局,我方输掉一局
 		{
-			cnt++;
-			logging("Result: RedWin");
+			logging("Result: OpponentWin");
 			uct.init = NULL;
+			checkOrNot = false;
 		}
 
 	//策略函数
@@ -675,20 +687,17 @@ int Einstein::handle()
 
 	clientsocket.sendMsg(ans.c_str());  //发送信息，给出行动
 
-	updateBoard(chessboard, 25);
 	logging(ans);  //将对战记录输出到终端并存到list容器中
 
+	updateBoard(chessboard, 25);
+
 	if (isWin(chessboard, 25, mycolor) != 0) {
-		cnt++;  //我方赢得一局
 		checkOrNot = false;  //我方获胜会记录下来，故新开局无需检查
-		logging("Result: BlueWin");
+		IamWin = true;
+		logging("Result: YouWin");
 		uct.init = NULL;
 	}
 	else checkOrNot = true;  //从第二步棋开始检查
-
-
-	/**/
-	if (cnt == 100)return 0;
 
 	for (int i = 0; i < 25; ++i)  //记录当前棋盘
 		toCheck[i] = chessboard[i];
@@ -703,6 +712,15 @@ int Einstein::logging(std::string s)
 	time(&timep);
 	strftime(c, sizeof(c), "%Y-%m-%d %H-%M-%S", localtime(&timep));
 
+	if (recordTime)
+	{
+		int i = 0;
+		for (; c[i] != '\0'; ++i)
+			startTime[i] = c[i];
+		startTime[i] = '\0';
+		recordTime = false;
+	}
+
 	if (s[0] == 'd')  //done
 	{
 		s = ": " + s;
@@ -714,20 +732,17 @@ int Einstein::logging(std::string s)
 
 	if (s[0] == 'R')  //Result
 	{
-		list<string>::iterator it = logger.end();
-		for (it--; it != logger.begin() && (*it)[21] != 'R'; --it);
-		if (it != logger.begin())
-			++it;
+		recordTime = true;
 
 		int day1, hour1, minute1, second1;
 		stringstream ss[8];
-		ss[0] << (*it)[8] << (*it)[9];
+		ss[0] << startTime[8] << startTime[9];
 		ss[0] >> day1;
-		ss[1] << (*it)[11] << (*it)[12];
+		ss[1] << startTime[11] << startTime[12];
 		ss[1] >> hour1;
-		ss[2] << (*it)[14] << (*it)[15];
+		ss[2] << startTime[14] << startTime[15];
 		ss[2] >> minute1;
-		ss[3] << (*it)[17] << (*it)[18];
+		ss[3] << startTime[17] << startTime[18];
 		ss[3] >> second1;
 
 		int day2, hour2, minute2, second2;
@@ -781,9 +796,10 @@ int Einstein::writelog()
 	auto it = logger.begin();
 	filename.assign(*it, 0, 10);
 	filename += "-181860044.log";
-	ofstream fout(filename);
+	ofstream fout(filename,ios::app);
 	for (; it != logger.end(); ++it)
 		fout << *it;
+	fout << endl;
 	fout.close();
 	return 0;
 }
