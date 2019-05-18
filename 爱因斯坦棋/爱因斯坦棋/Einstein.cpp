@@ -29,7 +29,7 @@ inline void updateBoard(int chessboard[], int n) //更新棋局
 
 	if (moveDir == "up")
 		chessboard[moveIndex - 5] = chessboard[moveIndex];
-	else if(moveDir == "left")
+	else if (moveDir == "left")
 		chessboard[moveIndex - 1] = chessboard[moveIndex];
 	else if (moveDir == "leftup")
 		chessboard[moveIndex - 6] = chessboard[moveIndex];
@@ -41,7 +41,6 @@ inline void updateBoard(int chessboard[], int n) //更新棋局
 		chessboard[moveIndex + 6] = chessboard[moveIndex];
 	chessboard[moveIndex] = 0;
 }
-
 inline bool check(int chessboard[], int n)  //检查棋局是否发生巨大变化（重新开局）
 {
 	int diff = 0;//统计0的个数
@@ -50,35 +49,26 @@ inline bool check(int chessboard[], int n)  //检查棋局是否发生巨大变化（重新开局
 	if (diff > 2)return true;
 	else return false;
 }
-
-int isWin(int chessboard[], int n, bool c)  //判断某方是否取胜
+int isWin(int chessboard[], int n)  //判断某方是否取胜
 {
 	//蓝方胜2，红方胜1，未结束0
+	if (chessboard[0] > 6)return 2;
+	if (chessboard[24] > 0 && chessboard[24] <= 6)return 1;
 
-	//判断蓝色方是否获胜
-	if (c)
-	{
-		if (chessboard[0] > 6)return 2; //走到红方出发区角点
-		int num = 0; //红方剩子
-		for (int i = 0; i < 25; ++i)
-			if (chessboard[i] != 0 && chessboard[i] <= 6)num++;
-		if (num == 0)return 2;
-		return 0;
-	}
-	//判断红色方是否获胜
-	else {
-		if (chessboard[24] != 0 && chessboard[24] <= 6)return 1; //走到蓝方出发区角点
-		int num = 0; //蓝方剩子
-		for (int i = 0; i < 25; ++i)
-			if (chessboard[i] > 6)num++;
-		if (num == 0)return 1;
-		return 0;
-	}
+	int i = 0;
+	for (; i < 25; ++i)
+		if (chessboard[i] > 0 && chessboard[i] <= 6)break;
+	if (i == 25)return 2;
+
+	for (i = 0; i < 25; ++i)
+		if (chessboard[i] > 6)break;
+	if (i == 25)return 1;
+
+	return 0;
 }
-
-
-void randMove(int chessboard[], int n, int &dice, bool color)
+void randMoveRed(int chessboard[], int n)
 {
+	int dice = 1 + rand() % 6; //色子点数
 	int jj = -1; //选择要走的子
 	int index[2]; //可下子的位置
 	index[0] = -1, index[1] = -1;
@@ -94,85 +84,146 @@ void randMove(int chessboard[], int n, int &dice, bool color)
 	{
 		int mindis1 = 25, mindis2 = 25;
 		int tmpdis1, tmpdis2;
-		if (color == blue)
-		{
-			for (int i = 0; i < 25; ++i)
-				if (chessboard[i]>dice)  //找到大于色子点数的与其最接近的棋子所在位置
+
+		for (int i = 0; i < 25; ++i)
+			if (chessboard[i] <= 6 && chessboard[i]>dice)  //找到大于色子点数的与其最接近的棋子所在位置
+			{
+				tmpdis1 = chessboard[i] - dice;
+				if (tmpdis1 < mindis1)
 				{
-					tmpdis1 = chessboard[i] - dice;
-					if (tmpdis1 < mindis1)
-					{
-						mindis1 = tmpdis1;
-						index[0] = i;
-						jj = 0;
-					}
+					mindis1 = tmpdis1;
+					index[0] = i;
+					jj = 0;
 				}
-				else if (chessboard[i]>6) //找到小于色子点数的与其最接近的棋子所在位置
+			}
+			else if (chessboard[i]>0 && chessboard[i] < dice) //找到小于色子点数的与其最接近的棋子所在位置
+			{
+				tmpdis2 = dice - chessboard[i];
+				if (tmpdis2 < mindis1)
 				{
-					tmpdis2 = dice - chessboard[i];
-					if (tmpdis2 < mindis1)
-					{
-						mindis2 = tmpdis2;
-						index[1] = i;
-						jj = 1;
-					}
+					mindis2 = tmpdis2;
+					index[1] = i;
+					jj = 1;
 				}
-		}
-		else {
-			for (int i = 0; i < 25; ++i)
-				if (chessboard[i] <= 6 && chessboard[i]>dice)  //找到大于色子点数的与其最接近的棋子所在位置
-				{
-					tmpdis1 = chessboard[i] - dice;
-					if (tmpdis1 < mindis1)
-					{
-						mindis1 = tmpdis1;
-						index[0] = i;
-						jj = 0;
-					}
-				}
-				else if (chessboard[i]>0 && chessboard[i] < dice) //找到小于色子点数的与其最接近的棋子所在位置
-				{
-					tmpdis2 = dice - chessboard[i];
-					if (tmpdis2 < mindis1)
-					{
-						mindis2 = tmpdis2;
-						index[1] = i;
-						jj = 1;
-					}
-				}
-		}
+			}
 
 		if (index[0] != -1 && index[1] != -1) //可走子有两个
 			jj = rand() % 2;
 	}
 
-	vector<int> ways;  //移动方向，如-1表示向左
-	if (color == blue)
+	if (index[jj] < 20 && index[jj] % 5 != 4)//有三个方向可以走
 	{
-		if (index[jj] > 4)
-			ways.push_back(-5); //向上
-		if (index[jj] % 5 != 0)
-			ways.push_back(-1); //向左
-		if (ways.size() == 2)
-			ways.push_back(-6); //向左上
-		int i = rand() % ways.size();
-
-		chessboard[index[jj] + ways[i]] = chessboard[index[jj]];
+		int ch = rand() % 3;
+		switch (ch)
+		{
+		case 0: {
+			chessboard[index[jj] + 5] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		case 1: {
+			chessboard[index[jj] + 1] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		case 2: {
+			chessboard[index[jj] + 6] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		}
+	}
+	else if (index[jj] < 20)//只能往下走
+	{
+		chessboard[index[jj] + 5] = chessboard[index[jj]];
 		chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
 		return;
 	}
-	else {
-		if (index[jj] < 20)
-			ways.push_back(5); //向下
-		if (index[jj] % 5 != 4)
-			ways.push_back(1); //向右
-		if (ways.size() == 2)
-			ways.push_back(6); //向右下
-		int i = rand() % ways.size();
-
-		chessboard[index[jj] + ways[i]] = chessboard[index[jj]];
+	else {  //只能往右走
+		chessboard[index[jj] + 1] = chessboard[index[jj]];
 		chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+		return;
 	}
+}
+void randMoveBlue(int chessboard[], int n)
+{
+	int dice = 7 + rand() % 6; //色子点数
+
+	int jj = -1; //选择要走的子
+	int index[2]; //可下子的位置
+	index[0] = -1, index[1] = -1;
+
+	for (int i = 0; i < 25; ++i)
+		if (chessboard[i] == dice)  //与色子点数相同的棋子还在棋盘上
+		{
+			index[0] = i;
+			jj = 0;
+			break;
+		}
+	if (jj == -1)   //与色子点数相同的棋子不在棋盘上
+	{
+		int mindis1 = 25, mindis2 = 25;
+		int tmpdis1, tmpdis2;
+		for (int i = 0; i < 25; ++i)
+			if (chessboard[i]>dice)  //找到大于色子点数的与其最接近的棋子所在位置
+			{
+				tmpdis1 = chessboard[i] - dice;
+				if (tmpdis1 < mindis1)
+				{
+					mindis1 = tmpdis1;
+					index[0] = i;
+					jj = 0;
+				}
+			}
+			else if (chessboard[i]>6) //找到小于色子点数的与其最接近的棋子所在位置
+			{
+				tmpdis2 = dice - chessboard[i];
+				if (tmpdis2 < mindis1)
+				{
+					mindis2 = tmpdis2;
+					index[1] = i;
+					jj = 1;
+				}
+			}
+
+		if (index[0] != -1 && index[1] != -1) //可走子有两个
+			jj = rand() % 2;
+	}
+
+	if (index[jj] > 4 && index[jj] % 5 != 0)//有三个方向可以走
+	{
+		int ch = rand() % 3;
+		switch (ch)
+		{
+		case 0: {
+			chessboard[index[jj] - 5] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		case 1: {
+			chessboard[index[jj] - 1] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		case 2: {
+			chessboard[index[jj] - 6] = chessboard[index[jj]];
+			chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+			return;
+		}
+		}
+	}
+	else if (index[jj] > 4)//只能往上走
+	{
+		chessboard[index[jj] - 5] = chessboard[index[jj]];
+		chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+		return;
+	}
+	else {  //只能往左走
+		chessboard[index[jj] - 1] = chessboard[index[jj]];
+		chessboard[index[jj]] = 0; //走开后原来的地方不再有棋子，变为0
+		return;
+	}
+
 }
 
 struct Node
@@ -389,6 +440,16 @@ public:
 												
 }uct;
 
+
+void cleantree(Node *root)
+{
+	for (unsigned int i = 0; i < root->child.size(); i++)
+	{
+		cleantree(root->child[i]);
+	}
+	delete root;
+}
+
 string Tree::UCTSearch(int a[], int n, int dice)
 {
 	time_t init, now;
@@ -396,30 +457,28 @@ string Tree::UCTSearch(int a[], int n, int dice)
 
 	moveByOpponent(a, 25, dice);//更新根节点
 
-	//int coo = 1;
-
-	now = clock();//(double)(t2 - t1)/ CLOCKS_PER_SEC * 1000
+	now = clock();
 	while (((double)(now - init) / CLOCKS_PER_SEC) < 4.75)//未超时
 	{
-		//把多个步骤合在一起???
-		//cout << "第" << coo << "次搜索" << endl;
 		Node *simulate = treePolicy();
-		//cout << "第" << coo << "次treePolicy完成" << endl;
 		bool result = rolloutPolicy(simulate);
-		//cout << "第" << coo << "次rolloutPolicy完成" << endl;
 		backUp(simulate, result);
-		//cout << "第" << coo << "次backUp完成" << endl;
-		//coo++;
 		now = clock();
 	}
+	cout << "总模拟次数：" << root->total << endl;
 	Node *best = NULL;
-	double aaaa = -RAND_MAX;
-	for(auto it:root->child)
-		if ((double)(it->win/it->total) > aaaa)
+	double aaaa = RAND_MAX;
+	for (auto it : root->child)
+	{
+		if ((1.0*it->win / it->total) < aaaa)
 		{
-			aaaa = 1.0*(it->win/it->total);
+			aaaa = 1.0*it->win / it->total;
 			best = it;
 		}
+	}
+
+	cout << "获胜局数:"<<(best->total-best->win) <<"  总局数:"<< best->total << endl;
+	cout << "最终胜率：" << (1.0*(best->total - best->win) / best->total) << endl;
 
 	int p[2];  //最佳走子的棋子位置
 	for (int i = 0, diff = 0; diff < 2; ++i)
@@ -459,18 +518,16 @@ string Tree::UCTSearch(int a[], int n, int dice)
 			break;
 		}
 	}
-	//moveByMe
-	root = best; //我方走子后更新根节点
-	
+
 	return ans;
 }
 
 Node *Tree::treePolicy()
 {
 	Node *presentNode = root;
-	while (!isWin(presentNode->curBoard, 25, !presentNode->color))//节点不是终止节点
+	while (!isWin(presentNode->curBoard, 25))//节点不是终止节点
 	{
-		if (presentNode->child.size() != presentNode->allMove.size()) //该节点可扩展
+		if (presentNode->child.size() < presentNode->allMove.size()) //该节点可扩展
 			return expand(presentNode);  //扩展该节点
 		else presentNode = bestChild(presentNode);
 	}
@@ -479,35 +536,15 @@ Node *Tree::treePolicy()
 
 Node *Tree::expand(Node *p) //扩展节点p，并将扩展的节点加到p的子节点中，返回扩展的节点
 {
-	vector<moveWay> vaildMove;  //未遍历的走子方式
+	moveWay tmpWay = p->allMove[p->child.size()];
+
 	Node *expandNode;
-	bool flag;
-	for (auto it : p->allMove)
-	{
-		flag = false;  //某一移动方式是否已经模拟
-		for (auto itt : p->child)
-			if (itt->moveway == it)
-			{
-				flag = true;
-				break;
-			}
-		if (!flag)  //该方式未模拟
-			vaildMove.push_back(it);
-	}
-
-	int num = rand() % vaildMove.size();
-	
-	moveWay tmpWay = vaildMove[num];
-	int tmpBoard[25];
-	for (int i = 0; i < 25; ++i)
-		tmpBoard[i] = p->curBoard[i];
-	tmpBoard[tmpWay.second] = tmpBoard[tmpWay.first];
-	tmpBoard[tmpWay.first] = 0;
-
 	expandNode = new Node(tmpWay, !p->color);
 	expandNode->father = p;
-	for (int i = 0; i < 25; ++i)
-		expandNode->curBoard[i] = tmpBoard[i];
+	memcpy(expandNode->curBoard, p->curBoard, 25 * sizeof(int));
+	expandNode->curBoard[tmpWay.second] = expandNode->curBoard[tmpWay.first];
+	expandNode->curBoard[tmpWay.first] = 0;
+
 	expandNode->handle();
 
 	p->child.push_back(expandNode);
@@ -521,76 +558,59 @@ void Tree::moveByOpponent(int a[], int n, int dice)
 		root = new Node(mycolor);
 		root->father = root;
 		init = root;
-		for (int i = 0; i < 25; ++i)
-			root->curBoard[i] = a[i];
+		memcpy(root->curBoard, a, 25 * sizeof(int));
 		root->handle(dice);
 		return;
 	}
 
-	for (auto it : root->child)
-	{
-		int i = 0;
-		for (; i < 25; ++i)
-			if (it->curBoard[i] != a[i])break;
-
-		if (i == 25)  //对手下的棋我方已经模拟过
-		{
-			root = it;
-			root->handle(dice);
-			bool flag2;
-			for (auto itt = root->child.begin(); itt != root->child.end();)
-			{
-				flag2 = false;
-				for (auto allMoveWay : root->allMove)
-					if ((*itt)->moveway == allMoveWay) {
-						flag2 = true;
-						break;
-					}
-				if (!flag2)
-					itt = root->child.erase(itt);
-				else itt++;
-			}
-			return;
-		}
-	}
-
-	//对手下的棋我方未模拟过
-	Node *p = new Node(!color);
-	p->father = root;
-	for (int i = 0; i < 25; ++i)
-		p->curBoard[i] = a[i];
+	cleantree(root);
+	Node *p = new Node(mycolor);
+	p->father = p;
+	memcpy(p->curBoard, a, 25 * sizeof(int));
 	p->handle(dice);
 	root = p;
 }
 
 void Tree::backUp(Node *p, bool result)
 {
-	while (p != root)  //是不是还可以==root???
+	bool count = 0;
+	if (p->color == result)
+		count = 1;
+	while (p != root)  
 	{
 		p->total++;
-		p->win += result;
-		result = !result;
+		p->win += count;
+		count = !count;
 		p = p->father;
 	}
 	p->total++;
-	p->win += result;
+	p->win += count;
 }
 
 bool Tree::rolloutPolicy(Node *p)
 {
-	bool whoseTurn = p->color;  //轮到谁下
 	int board[25];
-	for (int i = 0; i < 25; ++i)
-		board[i] = p->curBoard[i];
-	while (!isWin(board, 25, !whoseTurn))  //未决出胜负
+	memcpy(board, p->curBoard, 25 * sizeof(int));
+
+	if (p->color == blue)//到蓝方下
 	{
-		int dice = 1 + rand() % 6; //色子点数
-		if (whoseTurn == blue)
-			dice += 6;
-		randMove(board, 25, dice, whoseTurn);
-		whoseTurn = !whoseTurn;
+		while (!isWin(board, 25))  //未决出胜负
+		{
+			randMoveBlue(board, 25); //蓝方先走
+			if (isWin(board, 25) != 0)break; //已经决出胜负
+			randMoveRed(board, 25);  //蓝方走完红方走
+		}
 	}
-	if (isWin(board, 25, !whoseTurn) == 1)  //红方胜
+	else {
+		while (!isWin(board, 25))  //未决出胜负
+		{
+			randMoveRed(board, 25); //红方先走
+			if (isWin(board, 25) != 0)break; //已经决出胜负
+			randMoveBlue(board, 25);  //红方走完蓝方走
+		}
+	}
+
+	if (isWin(board, 25) == 1)  //红方胜
 		return red;
 	else return blue;  //蓝方胜
 }
@@ -599,12 +619,13 @@ Node *Tree::bestChild(Node *p, double c)
 {
 	//c = 1.96;//待修改
 
-	double argmax = -RAND_MAX, ucb;
+	long double argmax = -RAND_MAX, ucb;
 	Node *best = NULL;
 	for (auto it : p->child)
 	{
+		//cout << "胜率：" << 1.0*it->win / it->total << endl;
 		//ucb = 1.0*it->win / it->total + c*sqrt(log(p->total) / it->total);
-		ucb = 1.0*it->win / it->total + 1.38*sqrt(2 * log(p->total) / it->total);
+		ucb = 1.0*it->win /it->total + 1.38*sqrt(2 * log(p->total) / it->total);
 		if (ucb > argmax) {
 			argmax = ucb;
 			best = it;
@@ -612,8 +633,6 @@ Node *Tree::bestChild(Node *p, double c)
 	}
 	return best;
 }
-
-
 
 
 Einstein::Einstein()
@@ -691,7 +710,7 @@ int Einstein::handle()
 
 	updateBoard(chessboard, 25);
 
-	if (isWin(chessboard, 25, mycolor) != 0) {
+	if (isWin(chessboard, 25) != 0) {
 		checkOrNot = false;  //我方获胜会记录下来，故新开局无需检查
 		IamWin = true;
 		logging("Result: YouWin");
@@ -699,8 +718,9 @@ int Einstein::handle()
 	}
 	else checkOrNot = true;  //从第二步棋开始检查
 
-	for (int i = 0; i < 25; ++i)  //记录当前棋盘
-		toCheck[i] = chessboard[i];
+	/*for (int i = 0; i < 25; ++i)  //记录当前棋盘
+		toCheck[i] = chessboard[i];*/
+	memcpy(toCheck, chessboard, 25 * sizeof(int));
 
 	return 1;
 }
