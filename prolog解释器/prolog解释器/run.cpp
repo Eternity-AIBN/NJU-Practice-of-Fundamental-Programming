@@ -2,36 +2,25 @@
 #include"grammar.h"
 #include<fstream>
 
-void Lexical::saveIn()
-{
-	ofstream fout("token.txt");
-	if (!fout)
-	{
-		cout << "Save table error." << endl;
-		return;
-	}
-	for (auto it : tokenTable)
-	{
-		for (auto p : it)
-			fout << p.first << '\t' << p.second << endl;
-		fout << endl;
-	}
-	fout.close();
-}
-
 bool Lexical::run(string fname)
 {
 	if (!readInfo(fname))
 		return false;
 	handle();
 	checkError();
-	//if (allErrors.size() != 0)
-		//return false;
-	saveIn();
+	if (allErrors.size() != 0)
+		return false;
 	return true;
 }
 
-void Grammar::run()
+bool Grammar::run()
 {
-
+	checkError();
+	if (allErrors.size() != 0)
+		return false;
+	/*while (1) //Todo：修改退出循环的条件
+	{
+		consultFact();
+	}*/
+	return true;
 }

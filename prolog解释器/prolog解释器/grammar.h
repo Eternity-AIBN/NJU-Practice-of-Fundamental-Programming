@@ -2,11 +2,13 @@
 #include"lexical.h"
 #include<iostream>
 
-typedef vector<string> Relation; //To save the arguements that have the same predicate.
+extern Lexical lex;
+
+//typedef vector<string> Relation; //To save the arguements that have the same predicate.
 struct Fact  //To save a fact and all the relation have to do with this fact.
 {
 	string name;
-	vector<Relation> allTheRelation;
+	vector<string> relation;
 };
 
 /*typedef vector<string, vector<string>> subRule;  
@@ -29,8 +31,9 @@ public:
 	vector<ErrorAndLine> allErrors;  //To save all the error existed.
 	vector<string> ans; //To save the answer when consult the fact according the rule.
 
-	void handle();  //To analysis the facts.
+	void handleFact();  //To analysis the facts.
+	void handleRule();  //To analysis the rules.
 	void checkError();  //To check if some lexical errors exist and put the errors into "allErrors".
 	void consultFact();  //To find the answer of a fact.
-	void run();  //To carry out functions.
+	bool run();  //To carry out functions.
 };
