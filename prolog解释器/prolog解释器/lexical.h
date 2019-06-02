@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include<iostream>
+#include<cctype>
 using namespace std;
 
 typedef pair<string, string> Token;  //The first element is morpheme,the second is type.
@@ -16,7 +17,6 @@ public:
 	vector<tokenLine> tokenTable;  //To save all the tokens and their types.
 	vector<ErrorAndLine> allErrors;  //To save all the error existed.
 
-	~Lexical() { tokenTable.clear(); allErrors.clear(); }
 	bool readInfo(string fname);  //To read all the token from the .pl file to initialize the tokenTable(the first element).
 	void handle();  //To remove the blank space and analysis the tokens and find their type.
 	void checkError();  //To check if some lexical error exists and put the error into "allErrors" and show them.

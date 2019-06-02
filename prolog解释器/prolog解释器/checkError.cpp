@@ -117,17 +117,11 @@ void Grammar::checkError()
 				}
 		}
 
-		allErrors.push_back(tmpError);
+		if (!tmpError.second.empty())
+			allErrors.push_back(tmpError);
 	}
 
-	if (!allErrors.empty())
-	{
-		cout << "Grammar error!" << endl;
-		for (auto it : allErrors)
-			for (unsigned int i = 0; i < it.second.size(); ++i)
-				cout << "Line " << it.first << ": " << it.second[i] << endl;
-	}
-	else   //To check the rule
+	if (allErrors.empty())  //To check the rule
 	{
 		handleFact();
 
@@ -172,6 +166,12 @@ void Grammar::checkError()
 		}
 	}
 
-	if (allErrors.empty())
-		handleRule();
+	if (!allErrors.empty())
+	{
+		cout << "Grammar error!" << endl;
+		for (auto it : allErrors)
+			for (unsigned int i = 0; i < it.second.size(); ++i)
+				cout << "Line " << it.first << ": " << it.second[i] << endl;
+	}
+	else handleRule();
 }

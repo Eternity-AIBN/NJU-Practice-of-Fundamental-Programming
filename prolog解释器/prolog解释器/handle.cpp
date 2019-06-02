@@ -1,6 +1,5 @@
 #include"lexical.h"
 #include"grammar.h"
-#include<cctype>
 
 void Lexical::handle()
 {

@@ -4,6 +4,9 @@
 
 extern Lexical lex;
 
+typedef pair<string, string> partOfAns; //The first is variable,the second is answer
+typedef vector<partOfAns> oneAns;  //One of the answers
+
 //typedef vector<string> Relation; //To save the arguements that have the same predicate.
 struct Fact  //To save a fact and all the relation have to do with this fact.
 {
@@ -29,11 +32,11 @@ public:
 	vector<Rule> allRules;  //To save all the rules.
 
 	vector<ErrorAndLine> allErrors;  //To save all the error existed.
-	vector<string> ans; //To save the answer when consult the fact according the rule.
+	vector<oneAns> allAns; //To save the answer when consult the fact according the rule.
 
 	void handleFact();  //To analysis the facts.
 	void handleRule();  //To analysis the rules.
 	void checkError();  //To check if some lexical errors exist and put the errors into "allErrors".
-	void consultFact();  //To find the answer of a fact.
+	void consultFact(string cmd);  //To find the answer of a fact.
 	bool run();  //To carry out functions.
 };
