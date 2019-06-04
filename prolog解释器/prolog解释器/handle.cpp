@@ -53,6 +53,11 @@ void Grammar::handleRule()
 				if (it.first[i].second != "symbol")
 					tmpRule.arguements.push_back(it.first[i].first);
 
+			int num = 0;
+			for (auto it : tmpRule.arguements)
+				if (isupper(it.front()))num++;
+			tmpRule.numOfVariable = num;
+
 			while (i < it.first.size() - 2)
 			{
 				i += 2;

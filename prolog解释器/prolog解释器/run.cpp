@@ -1,6 +1,8 @@
 #include"lexical.h"
 #include"grammar.h"
 #include<fstream>
+#define FACT 0
+#define RULE 1
 
 bool checkCMD(string cmd)
 {
@@ -20,12 +22,26 @@ bool checkCMD(string cmd)
 		return false;
 	}
 	++i;
-	if (i == cmd.size() - 1 && cmd[i] == '.')
+	if (i == cmd.size() - 1)
 		return true;
 	else {
 		cout << "Invalid command." << endl;
 		return false;
 	}
+}
+
+bool judgeCmd(string cmd)  //To judge the cmd is to consult a fact or a rule.
+{ 
+	string name;
+	for (auto p = cmd.begin(); *p != '('; ++p)
+		name += *p;
+	for (auto it : lex.tokenTable)
+	{
+		if (it.first.front().first == name)
+			if (it.second)return RULE;
+			else return FACT;
+	}
+	return FACT;  //The fact/rule does not exist.Reguard it as a fact. 
 }
 
 bool Lexical::run(string fname)
@@ -49,10 +65,15 @@ bool Grammar::run()
 	cout << "?- ";
 	string cmd;
 	cin >> cmd;
-	while (cmd!="halt.") //Todo：修改退出循环的条件
+	while (cmd!="halt.")
 	{
 		if (checkCMD(cmd))
-			consultFact(cmd);
+		{
+			if (judgeCmd(cmd) == FACT)
+				consultFact(cmd);
+			else consultRule(cmd);
+			allAns.clear();
+		}
 		cout << "?- ";
 		cin >> cmd;
 	}

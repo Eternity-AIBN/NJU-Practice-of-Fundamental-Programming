@@ -20,6 +20,5 @@ public:
 	bool readInfo(string fname);  //To read all the token from the .pl file to initialize the tokenTable(the first element).
 	void handle();  //To remove the blank space and analysis the tokens and find their type.
 	void checkError();  //To check if some lexical error exists and put the error into "allErrors" and show them.
-	//firend void saveIn();  //To save the token table into the file token.txt
 	bool run(string fname);  //To carry out functions.
 };

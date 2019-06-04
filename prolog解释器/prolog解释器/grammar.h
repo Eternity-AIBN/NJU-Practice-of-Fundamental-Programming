@@ -7,20 +7,16 @@ extern Lexical lex;
 typedef pair<string, string> partOfAns; //The first is variable,the second is answer
 typedef vector<partOfAns> oneAns;  //One of the answers
 
-//typedef vector<string> Relation; //To save the arguements that have the same predicate.
 struct Fact  //To save a fact and all the relation have to do with this fact.
 {
 	string name;
 	vector<string> relation;
 };
 
-/*typedef vector<string, vector<string>> subRule;  
-/*The predicates that constitude a rule.
-The first element is the name of the predicate,the second element is the arguements related.*/
-
 struct Rule
 {
 	string name;  //The name of a rule.
+	int numOfVariable;  //The number of variables.
 	vector<string> arguements;  //The arguements of a rule.
 	vector<Fact> def;  //The define of the rule.
 };
@@ -37,6 +33,12 @@ public:
 	void handleFact();  //To analysis the facts.
 	void handleRule();  //To analysis the rules.
 	void checkError();  //To check if some lexical errors exist and put the errors into "allErrors".
+	bool judgeFact(Fact tmpFact);  //To judge a fact is true or not.
 	void consultFact(string cmd);  //To find the answer of a fact.
+	void consultRule(string cmd);  //To consult a rule.
+	bool conRule0(Rule tmprule, Fact tmpfact);  //To consult a rule without variable.
+	bool conRule1(Rule tmprule, Fact tmpfact);  //To consult a rule with one variable.
+	bool conRule2(Rule tmprule, Fact tmpfact);  //To consult a rule with two variable.
+	vector<string> findTheAns(Fact tmpFact, string anotherVariable);
 	bool run();  //To carry out functions.
 };

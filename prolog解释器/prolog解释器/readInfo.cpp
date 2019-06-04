@@ -37,11 +37,11 @@ bool Lexical::readInfo(string fname)
 							tmpLine.first.push_back(tmpToken);  //save the last token
 							tmpToken.first.clear();
 						}
-						tmpToken.first = *it;
-						/*++it;
-						tmpToken.first += *it;
-						tmpLine.push_back(tmpToken);  //save the new token ":-"
-						tmpToken.first.clear();*/
+						for (; *it != ' '&&!isalpha(*it);++it)
+							tmpToken.first += *it;
+						--it;
+						tmpLine.first.push_back(tmpToken);  //save the new token ":-"
+						tmpToken.first.clear(); 
 					}
 					else if (*it == ' ')
 					{
